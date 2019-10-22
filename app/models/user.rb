@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
 
   before_create :randomize_public_id
-
+  has_many :medias
 
 
 

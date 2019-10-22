@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_22_104704) do
+ActiveRecord::Schema.define(version: 2019_10_22_193552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "media", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "name"
+    t.string "property_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_media_on_user_id"
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email"
@@ -24,4 +33,5 @@ ActiveRecord::Schema.define(version: 2019_10_22_104704) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "media", "users"
 end
