@@ -13,12 +13,14 @@ class Auth
   end
 
   def self.decode(token)
-    JWT.decode(
+    decoded_t = JWT.decode(
       token,
       auth_secret,
       true,
       { algorithm: ALGORITHM }
     ).first
+    puts "Decoded = " + decoded_t["user"]
+    return decoded_t
   end
 
   def self.auth_secret
