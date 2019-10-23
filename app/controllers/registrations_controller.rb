@@ -10,6 +10,7 @@ class RegistrationsController < ApplicationController
     if user
       jwt = Auth.issue({user: user.public_user_id})
       render json: {
+        status: "created",
         jwt: jwt
       }
     else

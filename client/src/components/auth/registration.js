@@ -29,10 +29,9 @@ export default class Registration extends Component {
       },
       { withCredentials: true }
     ).then(response => {
-      console.log("registration response", response);
-      console.log(response.data.jwt);
-      localStorage.setItem("jwt", response.data.jwt);
-      console.log("get local", localStorage.getItem("jwt"));
+      if (response.data.status === 'created') {
+        this.props.handleSuccessfulAuth(response.data);
+      }
     }).catch(error => {
       console.log("registration error", error);
     });
