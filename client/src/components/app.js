@@ -2,6 +2,8 @@ import React, { Component} from 'react';
 import  { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Home from './Home';
+import Testpage from './Testpage'
+import Auth from '../modules/Auth'
 
 export default class App extends Component {
 
@@ -9,11 +11,11 @@ export default class App extends Component {
     super();
 
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: Auth.isLoggedIn().toString(),
       user: {}
     }
 
-    
+
 
   }
 
@@ -26,6 +28,7 @@ export default class App extends Component {
           exact
           path={"/"}
           render = {props => (
+
             <Home { ... props} loggedInStatus={this.state.loggedInStatus} />
           )}
         />
@@ -36,6 +39,7 @@ export default class App extends Component {
             <Dashboard { ... props} loggedInStatus={this.state.loggedInStatus} />
           )}
         />
+
         </Switch>
         </BrowserRouter>
       </div>
