@@ -6,6 +6,10 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+    if (props.loggedInStatus === "true"){
+
+      props.history.push('/dashboard');
+    }
   }
 
 

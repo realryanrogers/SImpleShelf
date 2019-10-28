@@ -2,13 +2,16 @@ import React from 'react';
 
 
 const Dashboard = props => {
-  console.log(props)
+  if (props.loggedInStatus === "false"){
+
+    props.history.push('/');
+  }
   return (
     <div>
       <div>
-        <h1>Dashboard</h1>
+        <h1></h1>
 
-        <h2>Status: {props.loggedInStatus}</h2>
+        <h2>Logged In: {props.loggedInStatus ? "Yes" : "No"}</h2>
       </div>
     </div>
   );
