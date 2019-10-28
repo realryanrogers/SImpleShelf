@@ -5,6 +5,7 @@ class Auth
   ALGORITHM = "HS256"
 
   def self.issue(payload)
+    #encodes the users public_user_id
     puts "HERE"
     puts payload
     JWT.encode(
@@ -15,13 +16,14 @@ class Auth
   end
 
   def self.decode(token)
+    #send back the users public_user_id
     decoded_t = JWT.decode(
       token,
       auth_secret,
       true,
       { algorithm: ALGORITHM }
-    ).first
-    puts "Decoded = " + decoded_t["user"]
+    ).first["user"]
+    puts "Decoded = " + decoded_t
     return decoded_t
   end
 

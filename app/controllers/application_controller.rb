@@ -11,7 +11,8 @@ class ApplicationController < ActionController::API
   def current_user
     if auth_present?
       puts "Auth present"
-      user = User.find_by(public_user_id: auth["user"])
+      puts "auth user" + auth
+      user = User.find_by(public_user_id: auth)
       puts "User " + user.public_user_id
       if user
         @current_user ||= user
@@ -29,11 +30,12 @@ class ApplicationController < ActionController::API
   private
 
     def token
-      puts request.headers["HTTP-AUTHORIZATION"].scan(/Bearer(.*)$/).flatten.last.strip
+
       request.headers["HTTP-AUTHORIZATION"].scan(/Bearer(.*)$/).flatten.last.strip
     end
 
     def auth
+      puts "TOKEN " + token
       Auth.decode(token)
     end
 
