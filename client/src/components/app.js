@@ -4,6 +4,7 @@ import Dashboard from './Dashboard';
 import Home from './Home';
 import Testpage from './Testpage'
 import Auth from '../modules/Auth'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends Component {
 

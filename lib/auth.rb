@@ -26,7 +26,7 @@ class Auth
   end
 
   def self.auth_secret
-    ENV["SECRET_BASE"]
+    "1e3ff42f68a495fbf2b1df01c4c874bc2b3a581489f015ef763e8d0169ee002e5540f7fd62ae8f778539fb9107da0bf4881ea46830615ec81356b36ab398d178"
   end
 
 end
