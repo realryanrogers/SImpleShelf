@@ -2,9 +2,9 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 class User {
-  static async getUserInfo(jwt) {
+  static getUserInfoo(jwt) {
     console.log("return value: ", this.decodeUserId(jwt))
-    await axios.get(
+    axios.get(
     "http://localhost:3001/users/" + this.decodeUserId(jwt),
     { withCredentials: true, headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}`} }
   ).then(response => {
@@ -15,6 +15,14 @@ class User {
   }).catch(error => {
     console.log("Unable to fetch error", error);
   });
+  }
+
+  static getUserInfo = async jwt => {
+    const response = await axios.get(
+    "http://localhost:3001/users/" + this.decodeUserId(jwt),
+    { withCredentials: true, headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}`} }
+    );
+    return response.data.user;
   }
 
 
