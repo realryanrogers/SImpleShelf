@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import Auth from './Auth'
 
 class User {
   static getUserInfoo(jwt) {
@@ -18,11 +19,13 @@ class User {
   }
 
   static getUserInfo = async jwt => {
-    const response = await axios.get(
-    "http://localhost:3001/users/" + this.decodeUserId(jwt),
-    { withCredentials: true, headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}`} }
-    );
-    return response.data.user;
+    if (Auth.isLoggedIn()) {
+      const response = await axios.get(
+      "http://localhost:3001/users/" + this.decodeUserId(jwt),
+      { withCredentials: true, headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}`} }
+      );
+      return response.data.user;
+    }
   }
 
 
