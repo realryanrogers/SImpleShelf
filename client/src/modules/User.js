@@ -2,14 +2,14 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 class User {
-  static getUserInfo(jwt) {
+  static async getUserInfo(jwt) {
     console.log("return value: ", this.decodeUserId(jwt))
-    axios.get(
+    await axios.get(
     "http://localhost:3001/users/" + this.decodeUserId(jwt),
     { withCredentials: true, headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}`} }
   ).then(response => {
     if (response.data.status === 'success') {
-      console.log("response: ", response)
+      console.log("response: ", response.data.user)
       return response.data.user;
     }
   }).catch(error => {

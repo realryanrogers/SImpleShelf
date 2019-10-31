@@ -8,12 +8,23 @@ export default class Dashboard extends Component {
     if (props.loggedInStatus === "false"){
       props.history.push('/');
     }
-    var user = User.getUserInfo(localStorage.getItem("jwt"));
-    console.log("User return: ", user)
     this.state = {
-      user_id: user.id,
-      user_email: user.email
+      user_id: "",
+      user_email: ""
     }
+
+  }
+
+  async gettingState(){
+    await User.getUserInfo(localStorage.getItem("jwt")).then(response => {
+      console.log("state return: ", response);
+  }
+);
+  }
+
+  componentDidMount(){
+
+    this.gettingState();
   }
   render() {
     return (
