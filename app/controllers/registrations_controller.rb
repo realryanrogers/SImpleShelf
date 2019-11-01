@@ -8,6 +8,7 @@ class RegistrationsController < ApplicationController
       password_confirmation: params['user']['password_confirmation']
     )
     if user
+      profile = Profile.create!(user_id: user.id)
       jwt = Auth.issue({user: user.public_user_id})
       render json: {
         status: "created",

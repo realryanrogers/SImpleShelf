@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Registraion from './auth/registration'
+import React, { Component } from "react";
+import Registraion from "./auth/registration";
 
 export default class Home extends Component {
   constructor(props) {
@@ -7,19 +7,17 @@ export default class Home extends Component {
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
   }
 
-
-  handleSuccessfulAuth(data){
+  handleSuccessfulAuth(data) {
     localStorage.setItem("jwt", data.jwt);
-    console.log(this.props);
-    this.props.history.push('/dashboard');
+    this.props.history.push("/dashboard");
   }
 
-  render () {
-    return(
+  render() {
+    return (
       <div>
         <h1>Home</h1>
         <h1>Status: {this.props.loggedInStatus}</h1>
-        <Registraion handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+        <Registraion handleSuccessfulAuth={this.handleSuccessfulAuth} />
       </div>
     );
   }
