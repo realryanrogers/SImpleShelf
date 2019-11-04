@@ -5,6 +5,7 @@ import Home from "./Home";
 import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
 import Media from "./Media";
+import Topbar from "./Topbar"
 import "../css/bootstrap-theme-BT.css";
 
 export default class App extends Component {
@@ -21,6 +22,7 @@ export default class App extends Component {
     return (
       <div className="app">
         <BrowserRouter>
+        <Topbar />
           <Switch>
             <Route
               exact
