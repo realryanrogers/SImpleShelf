@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from "react-router-dom";
-import Dashboard from "./Dashboard";
+import { Dashboard } from "./";
 import Home from "./Home";
 import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
