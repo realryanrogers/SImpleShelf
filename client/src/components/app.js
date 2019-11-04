@@ -6,7 +6,7 @@ import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
 import Media from "./Media";
 import Topbar from "./Topbar"
-import "../css/bootstrap-theme-BT.css";
+
 
 export default class App extends Component {
   constructor() {
