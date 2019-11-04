@@ -5,7 +5,7 @@ import Home from "./Home";
 import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
 import Media from "./Media";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/bootstrap-theme-BT.css";
 
 export default class App extends Component {
   constructor() {
