@@ -6,6 +6,7 @@ import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
 import Media from "./Media";
 import "../css/bootstrap-theme-BT.css";
+import Navbar from "./Navbar";
 
 export default class App extends Component {
   constructor() {
@@ -18,8 +19,11 @@ export default class App extends Component {
   }
 
   render() {
+    const navRender = <Navbar loggedInStatus={Auth.isLoggedIn().toString()} />;
+
     return (
       <div className="app">
+        {navRender}
         <BrowserRouter>
           <Switch>
             <Route
