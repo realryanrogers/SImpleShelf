@@ -6,7 +6,7 @@ export default class Topbar extends Component {
 
   render(){
     return(
-      <Navbar bg="primary" expand="lg">
+      <Navbar bg="info" expand="lg" variant="dark">
         <Navbar.Brand href="/">SimpleShelf</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
