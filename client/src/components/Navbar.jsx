@@ -1,20 +1,41 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, withRouter, Redirect } from "react-router-dom";
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchTerm: props.searchTerm
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    this.props.handleSearch(this.state.searchTerm);
+
+  }
+
+  handleChange(e){
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
 
   navLoggedIn() {}
 
   navLoggedOut() {}
 
+
+
   render() {
+    console.log("props: ", this.props.searchTerm);
     return (
       <div>
-        <Router>
+          {this.props.searchTerm != "" &&
+            <Redirect to='/results' push/>
+          }
           <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <button
               className="navbar-toggler navbar-toggler-right"
@@ -28,7 +49,7 @@ class Navbar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            <Link className="navbar-brand" to="./">
+            <Link className="navbar-brand" to="/">
               SimpleShelf
             </Link>
 
@@ -51,16 +72,19 @@ class Navbar extends Component {
                   </a>
                 </li>
               </ul>
-              <form className="form-inline my-2 my-lg-0">
+              <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
                 <input
                   className="form-control mr-sm-2"
+                  name="searchTerm"
                   type="text"
                   placeholder="Search"
+                  value={this.state.searchTerm}
+                  onChange={this.handleChange}
                 />
               </form>
             </div>
           </nav>
-        </Router>
+
       </div>
     );
   }

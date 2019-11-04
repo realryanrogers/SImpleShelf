@@ -30,7 +30,7 @@ class BookSearch extends Component {
               name="identifier"
               className="form-control"
               id="identifier"
-              aria-describedby="emailHelp"
+              aria-describedby="ISBN"
               placeholder="ISBN"
               value={this.state.identifier}
               onChange={this.handleChange}
