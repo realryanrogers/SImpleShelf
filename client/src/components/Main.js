@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter, Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Home from "./Home";
-import Testpage from "./Testpage";
 import Auth from "../modules/Auth";
 import Media from "./Media";
 import Topbar from "./Topbar";

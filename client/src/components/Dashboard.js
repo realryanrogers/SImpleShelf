@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import User from "../modules/User";
-import BookSearch from "./BookSearch";
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
-    if (props.loggedInStatus === "false") {
+    if (props.loggedInStatus !== "true") {
       props.history.push("/");
     }
     this.state = {
@@ -40,7 +39,6 @@ export default class Dashboard extends Component {
     return (
       <div>
         <div>
-          <h1></h1>
           <h2>Logged In: {this.props.loggedInStatus ? "Yes" : "No"}</h2>
           Email: {this.state.user_email}
           <p>

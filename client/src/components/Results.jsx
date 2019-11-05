@@ -9,13 +9,16 @@ class Results extends Component {
       searchTerm: this.props.location.state.searchText,
       results: []
     };
+    if (props.loggedInStatus !== "true") {
+      props.history.push("/");
+    }
   }
   componentDidMount() {
     this.onTermSubmit(this.props.location.state.searchText);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchTerm != this.props.location.state.searchText) {
+    if (prevState.searchTerm !== this.props.location.state.searchText) {
       this.onTermSubmit(this.props.location.state.searchText);
     }
   }
