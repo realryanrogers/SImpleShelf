@@ -3,6 +3,10 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate
 
+  def fallback_index_html
+    render :file => 'public/index.html'
+  end
+
   def logged_in?
     puts "checking current_user"
     !!current_user

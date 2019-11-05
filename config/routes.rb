@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   end
   post '/login', to: "sessions#create"
   root to: "static#home"
+  get '*path', to: "application#fallback_index_html", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 end
