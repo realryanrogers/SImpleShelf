@@ -1,9 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import App from './components/app';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import Main from "./components/Main";
 import "./css/bootstrap-theme-BT.css";
-ReactDOM.render(
-  <App />,
-  document.querySelector('#root')
-);
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Main />
+    </BrowserRouter>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
