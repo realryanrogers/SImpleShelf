@@ -26,6 +26,7 @@ export default class Topbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log("submission handled");
     this.props.handleSearchSubmit(this.state.searchTerm);
   };
 

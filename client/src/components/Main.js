@@ -29,7 +29,9 @@ class Main extends Component {
   };
 
   handleSearchSubmit = term => {
+    console.log("Search Input Main");
     if (term) {
+      console.log("pushing");
       this.props.history.push({
         pathname: "/results",
         state: {

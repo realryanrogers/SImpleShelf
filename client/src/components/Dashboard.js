@@ -46,9 +46,6 @@ export default class Dashboard extends Component {
           <p>
             <button onClick={this.handleLogout}>Logout</button>
           </p>
-          <div>
-            <BookSearch {...this.props} />
-          </div>
         </div>
       </div>
     );
