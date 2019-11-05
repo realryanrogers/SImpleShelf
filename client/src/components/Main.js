@@ -44,6 +44,7 @@ class Main extends Component {
     return (
       <div className="app">
         <Topbar handleSearchSubmit={this.handleSearchSubmit} />
+        <div className="container">
         <Switch>
           <Route
             exact
@@ -80,6 +81,7 @@ class Main extends Component {
             )}
           />
         </Switch>
+        </div>
       </div>
     );
   }
