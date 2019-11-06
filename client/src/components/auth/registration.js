@@ -31,11 +31,22 @@ export default class Registration extends Component {
       )
       .then(response => {
         if (response.data.status === "created") {
+          this.setState({
+            registrationErrors: ""
+          });
           this.props.handleSuccessfulAuth(response.data);
+        } else {
+          console.log("error encountered");
+          this.setState({
+            registrationErrors: "registration"
+          });
         }
       })
       .catch(error => {
         console.log("registration error", error);
+        this.setState({
+          registrationErrors: "registration"
+        });
       });
     event.preventDefault();
   }
@@ -49,6 +60,7 @@ export default class Registration extends Component {
   render() {
     return (
       <div>
+        {this.props.handleError(this.state.registrationErrors)}
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <input

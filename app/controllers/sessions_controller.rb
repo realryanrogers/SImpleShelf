@@ -4,9 +4,13 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: auth_params[:email])
-    if user.authenticate(auth_params[:password])
-      jwt = Auth.issue({user: user.public_user_id})
-      render json: {jwt: jwt, status: "Logged In"}
+    if user
+      if user.authenticate(auth_params[:password])
+        jwt = Auth.issue({user: user.public_user_id})
+        render json: {jwt: jwt, status: "Logged In"}
+      else
+        render json: {status: 401}
+      end
     else
       render json: {status: 401}
     end

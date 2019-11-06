@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
       password: params['user']['password'],
       password_confirmation: params['user']['password_confirmation']
     )
+
     if user
       jwt = Auth.issue({user: user.public_user_id})
       render json: {
@@ -16,6 +17,7 @@ class RegistrationsController < ApplicationController
     else
       render json: { status: 500 }
     end
+
   end
 
 end

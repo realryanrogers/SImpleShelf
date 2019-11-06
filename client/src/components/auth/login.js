@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Alert } from "react-bootstrap";
 
 export default class Login extends Component {
   constructor(props) {
@@ -43,7 +44,14 @@ export default class Login extends Component {
       )
       .then(response => {
         if (response.data.status === "Logged In") {
+          this.setState({
+            loginErrors: ""
+          });
           this.props.handleSuccessfulAuth(response.data);
+        } else {
+          this.setState({
+            loginErrors: "login"
+          });
         }
       })
       .catch(error => {
@@ -55,6 +63,7 @@ export default class Login extends Component {
   render() {
     return (
       <div>
+        {this.props.handleError(this.state.loginErrors)}
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <input
