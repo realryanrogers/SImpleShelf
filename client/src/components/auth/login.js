@@ -55,7 +55,6 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <h2>Login</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <input
@@ -80,8 +79,8 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
+          <button type="submit" className="btn btn-info">
+            Login
           </button>
         </form>
       </div>
