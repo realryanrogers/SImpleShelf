@@ -19,12 +19,12 @@ class Results extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.props.location.state.searchText) {
+      this.setState({ results: [] });
       this.onTermSubmit(this.props.location.state.searchText);
     }
   }
 
   onTermSubmit = async term => {
-    this.setState({ results: [] });
     const response = await BookAPI.get(`${term}`);
     this.setState({
       results: response.data
