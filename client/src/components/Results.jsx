@@ -24,6 +24,7 @@ class Results extends Component {
   }
 
   onTermSubmit = async term => {
+    this.setState({ results: [] });
     const response = await BookAPI.get(`${term}`);
     this.setState({
       results: response.data
