@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Alert } from "react-bootstrap";
 
 export default class Login extends Component {
   constructor(props) {

@@ -6,6 +6,7 @@ import Auth from "../modules/Auth";
 import Media from "./Media";
 import Topbar from "./Topbar";
 import Results from "./Results";
+import User from "../modules/User";
 
 class Main extends Component {
   constructor() {
@@ -15,6 +16,23 @@ class Main extends Component {
       loggedInStatus: Auth.isLoggedIn().toString(),
       user: {}
     };
+  }
+
+  componentDidMount() {
+    if (Auth.isLoggedIn().toString() === "true") {
+      this.gettingUser().then(response => {
+        console.log("TEST: ", response);
+        this.setState({
+          user: response
+        });
+      });
+    }
+  }
+
+  async gettingUser() {
+    const user = await User.getUserInfo(localStorage.getItem("jwt"));
+    console.log("user: ", user);
+    return user;
   }
 
   handleRoute = route => () => {
@@ -39,48 +57,64 @@ class Main extends Component {
       });
     }
   };
+  handleLogout = () => {
+    localStorage.removeItem("jwt");
+    this.props.history.push("/");
+  };
 
   render() {
     return (
       <div className="app">
-        <Topbar handleSearchSubmit={this.handleSearchSubmit} />
+        <Topbar
+          handleSearchSubmit={this.handleSearchSubmit}
+          loggedInStatus={Auth.isLoggedIn().toString()}
+          user={this.state.user}
+          handleLogout={this.handleLogout}
+        />
         <div className="container">
-        <Switch>
-          <Route
-            exact
-            path={"/"}
-            render={props => (
-              <Home {...props} loggedInStatus={Auth.isLoggedIn().toString()} />
-            )}
-          />
-          <Route
-            exact
-            path={"/dashboard"}
-            render={props => (
-              <Dashboard
-                {...props}
-                loggedInStatus={Auth.isLoggedIn().toString()}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={"/media/:type/:id"}
-            render={props => (
-              <Media {...props} loggedInStatus={Auth.isLoggedIn().toString()} />
-            )}
-          />
-          <Route
-            exact
-            path={"/results"}
-            render={props => (
-              <Results
-                {...props}
-                loggedInStatus={Auth.isLoggedIn().toString()}
-              />
-            )}
-          />
-        </Switch>
+          <Switch>
+            <Route
+              exact
+              path={"/"}
+              render={props => (
+                <Home
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={"/dashboard"}
+              render={props => (
+                <Dashboard
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                  handleLogout={this.handleLogout}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={"/media/:type/:id"}
+              render={props => (
+                <Media
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={"/results"}
+              render={props => (
+                <Results
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                />
+              )}
+            />
+          </Switch>
         </div>
       </div>
     );

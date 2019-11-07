@@ -11,7 +11,6 @@ export default class Dashboard extends Component {
       user_id: "",
       user_email: ""
     };
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
   async gettingState() {
@@ -25,25 +24,23 @@ export default class Dashboard extends Component {
         console.log("TEST: ", response);
         this.setState({
           user_id: response.id,
-          user_email: response.email
+          user_email: response.email,
+          user_firstName: response.firstName,
+          user_lastName: response.lastName
         });
       });
     }
   }
 
-  handleLogout() {
-    localStorage.removeItem("jwt");
-    this.props.history.push("/");
-  }
   render() {
     return (
       <div>
         <div>
-          <h2>Logged In: {this.props.loggedInStatus ? "Yes" : "No"}</h2>
-          Email: {this.state.user_email}
-          <p>
-            <button onClick={this.handleLogout}>Logout</button>
-          </p>
+          <h2>
+            {this.state.user_firstName
+              ? `${this.state.user_firstName} ${this.state.user_lastName}`
+              : ""}
+          </h2>
         </div>
       </div>
     );
