@@ -36,11 +36,14 @@ export default class Dashboard extends Component {
     return (
       <div>
         <div>
-          <h2>
-            {this.state.user_firstName
-              ? `${this.state.user_firstName} ${this.state.user_lastName}`
-              : ""}
-          </h2>
+          <div className="row">
+            <h2>
+              {this.state.user_firstName
+                ? `${this.state.user_firstName} ${this.state.user_lastName}`
+                : ""}
+            </h2>
+          </div>
+          <div className="row"></div>
         </div>
       </div>
     );
