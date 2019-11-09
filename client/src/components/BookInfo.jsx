@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
+
 class BookInfo extends Component {
   constructor(props) {
     super(props);
@@ -14,9 +16,25 @@ class BookInfo extends Component {
           <p>
             <small>by {this.props.author}</small>
           </p>
+          <Dropdown as={ButtonGroup}>
+            <Button variant="info">Read It!</Button>
+
+            <Dropdown.Toggle split variant="info" id="dropdown-split-basic" />
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">Want to!</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="#/action-3">Send to Someone</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
         <div className="image-parent">
-          <img src={this.props.cover} alt="quixote" height="200px" />
+          <img
+            src={`https://covers.openlibrary.org/b/olid/${this.props.coverKey}-M.jpg`}
+            height="150"
+            width="90"
+            alt={this.props.title}
+          />
         </div>
       </div>
     );
