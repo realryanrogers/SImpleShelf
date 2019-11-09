@@ -1,10 +1,12 @@
 require 'httparty'
+require 'cgi'
 
 class BookSearch
 
     def self.search(term)
         puts "Term is: " + term
-        response = HTTParty.get('https://api2.isbndb.com/books/' + term,
+        termEncoded = CGI.escape(term)
+        response = HTTParty.get('https://api2.isbndb.com/books/' + termEncoded,
             {
                 headers: {
                     "Content-Type" => 'application/json',
