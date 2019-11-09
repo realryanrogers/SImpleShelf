@@ -1,5 +1,18 @@
-import Axios from "axios";
+import axios from "axios";
+import Auth from "./Auth";
 
-export default Axios.create({
-  baseURL: "https://openlibrary.org/search.json?q="
-});
+class BookAPI {
+  static bookSearch = async term => {
+    if (Auth.isLoggedIn()) {
+      const response = await axios.get("/booksearch?term=" + term, {
+        withCredentials: true,
+        headers: {
+          "HTTP-AUTHORIZATION": `Bearer ${localStorage.getItem("jwt")}`
+        }
+      });
+      return response;
+    }
+  };
+}
+
+export default BookAPI;

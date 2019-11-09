@@ -6,6 +6,7 @@ class BookInfo extends Component {
     this.state = { title: "", isbn: "", author: "" };
   }
   render() {
+    console.log("Props: ", this.props);
     return (
       <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <div className="flex-column">
@@ -15,11 +16,7 @@ class BookInfo extends Component {
           </p>
         </div>
         <div className="image-parent">
-          <img
-            src={`https://covers.openlibrary.org/b/olid/${this.props.coverKey}-M.jpg`}
-            className="img-fluid"
-            alt="quixote"
-          />
+          <img src={this.props.cover} alt="quixote" height="200px" />
         </div>
       </div>
     );

@@ -17,6 +17,7 @@ class Results extends Component {
   }
   componentDidMount() {
     this.onTermSubmit(this.props.location.state.searchText);
+    console.log(process.env.ISBNDB_SECRET);
   }
 
   componentDidUpdate = prevProps => {
@@ -30,7 +31,8 @@ class Results extends Component {
   };
 
   onTermSubmit = async term => {
-    const response = await BookAPI.get(`${term}`);
+    const response = await BookAPI.bookSearch(`${term}`);
+    console.log("respoine: ", response);
     this.setState({
       results: response.data
     });
@@ -38,16 +40,15 @@ class Results extends Component {
 
   showResults = () => {
     console.log("results: ", this.state.results);
-
-    const dataSlice = this.state.results.docs.slice(0, 25);
+    const resultData = this.state.results.books;
 
     return (
       <ul className="list-group">
-        {dataSlice.map((docs, key) => (
+        {resultData.map((books, key) => (
           <BookInfo
-            title={docs.title}
-            coverKey={docs.cover_edition_key}
-            author={docs.author_name ? docs.author_name[0] : "Unknown"}
+            title={books.title}
+            cover={books.image}
+            author={books.authors ? books.authors[0] : "Unknown"}
             key={key.toString()}
           />
         ))}
@@ -56,9 +57,9 @@ class Results extends Component {
   };
 
   render() {
-    if (!this.state.results.docs) {
+    if (!this.state.results.books) {
       return <div>Loading...</div>;
-    } else if (this.state.results.numFound === 0) {
+    } else if (this.state.results.total === 0) {
       return <div>No results found</div>;
     }
     return (

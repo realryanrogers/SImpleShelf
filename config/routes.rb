@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show], param: :public_user_id do
     resources :medias
   end
+  get '/booksearch', to: "static#booksearch"
   post '/login', to: "sessions#create"
   root to: "static#home"
   get '*path', to: "application#fallback_index_html", constraints: ->(request) do
