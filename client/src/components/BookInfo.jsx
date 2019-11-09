@@ -12,7 +12,7 @@ class BookInfo extends Component {
 
   divClick(e) {
     if (e.target.dataset.space !== "button") {
-      console.log("clicked");
+      this.props.handleBookClick(this.props.isbn);
     }
   }
 

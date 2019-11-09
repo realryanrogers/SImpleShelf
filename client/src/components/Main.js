@@ -7,6 +7,7 @@ import Media from "./Media";
 import Topbar from "./Topbar";
 import Results from "./Results";
 import User from "../modules/User";
+import BookDetail from "./BookDetail";
 
 class Main extends Component {
   constructor() {
@@ -62,6 +63,12 @@ class Main extends Component {
     this.props.history.push("/");
   };
 
+  handleBookClick = isbn => {
+    /* this.props.history.push(`/bookdetail/${isbn}`); */
+    console.log(isbn);
+    this.props.history.push(`/bookdetail/${isbn}`);
+  };
+
   render() {
     return (
       <div className="app">
@@ -109,6 +116,17 @@ class Main extends Component {
               path={"/results"}
               render={props => (
                 <Results
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                  handleBookClick={this.handleBookClick}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={"/bookdetail/:id"}
+              render={props => (
+                <BookDetail
                   {...props}
                   loggedInStatus={Auth.isLoggedIn().toString()}
                 />

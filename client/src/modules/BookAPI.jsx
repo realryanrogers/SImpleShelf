@@ -13,6 +13,13 @@ class BookAPI {
       return response;
     }
   };
+
+  static getBook = async isbn => {
+    const response = await axios.get(
+      `'https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json`
+    );
+    return response;
+  };
 }
 
 export default BookAPI;

@@ -49,7 +49,9 @@ class Results extends Component {
             title={books.title}
             cover={books.image}
             author={books.authors ? books.authors[0] : "Unknown"}
+            isbn={books.isbn13 ? books.isbn13 : books.isbn10}
             key={key.toString()}
+            handleBookClick={this.props.handleBookClick}
           />
         ))}
       </ul>
