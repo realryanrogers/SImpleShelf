@@ -32,7 +32,7 @@ export default class Topbar extends Component {
           <Form inline onSubmit={this.handleSubmit}>
             <FormControl
               type="text"
-              placeholder="Book Search"
+              placeholder="Search ISBN or Title"
               className="mr-sm-2"
               value={this.state.searchTerm}
               name="searchTerm"

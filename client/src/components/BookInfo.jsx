@@ -45,14 +45,14 @@ class BookInfo extends Component {
               </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item href="#" data-space="button">
-                Send to Someone
+                Send to Friend
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
         <div className="image-parent">
           <img
-            src={this.props.cover}
+            src={`https://covers.openlibrary.org/b/id/${this.props.cover}-M.jpg`}
             height="150"
             width="100"
             alt={this.props.title}

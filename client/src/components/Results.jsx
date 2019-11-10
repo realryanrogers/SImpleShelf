@@ -9,7 +9,8 @@ class Results extends Component {
     super(props);
     this.state = {
       searchTerm: this.props.location.state.searchText,
-      results: []
+      results: [],
+      showFull: false
     };
     if (props.loggedInStatus !== "true") {
       props.history.push("/");
@@ -31,7 +32,7 @@ class Results extends Component {
   };
 
   onTermSubmit = async term => {
-    const response = await BookAPI.bookSearch(`${term}`);
+    const response = await BookAPI.openLibSearch(term);
     console.log("respoine: ", response);
     this.setState({
       results: response.data
@@ -40,16 +41,16 @@ class Results extends Component {
 
   showResults = () => {
     console.log("results: ", this.state.results);
-    const resultData = this.state.results.books;
-
+    const resultData = this.state.results.docs.slice(0, 19);
+    const sendBack = this.state.showFull ? this.state.results.docs : resultData;
     return (
       <ul className="list-group">
-        {resultData.map((books, key) => (
+        {sendBack.map((docs, key) => (
           <BookInfo
-            title={books.title}
-            cover={books.image}
-            author={books.authors ? books.authors[0] : "Unknown"}
-            isbn={books.isbn13 ? books.isbn13 : books.isbn10}
+            title={docs.title}
+            cover={docs.cover_i}
+            author={docs.author_name ? docs.author_name[0] : "Unknown"}
+            isbn={docs.isbn ? docs.isbn[docs.isbn.length - 1] : "Unknown"}
             key={key.toString()}
             handleBookClick={this.props.handleBookClick}
           />
@@ -59,7 +60,7 @@ class Results extends Component {
   };
 
   render() {
-    if (!this.state.results.books) {
+    if (!this.state.results.docs) {
       return <div>Loading...</div>;
     } else if (this.state.results.total === 0) {
       return <div>No results found</div>;
