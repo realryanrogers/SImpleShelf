@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show], param: :public_user_id do
     resources :medias
   end
+  resources :password_resets, only: [:create] do
+    collection do
+      get ':token', action: :edit, as: :edit
+      patch ':token', action: :update
+    end
+  end
   get '/booksearch', to: "static#booksearch"
   post '/login', to: "sessions#create"
   root to: "static#home"

@@ -3,6 +3,8 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate
 
+  rescue_from ResetPasswordError, with: :not_authorized
+
   def fallback_index_html
     render :file => 'public/index.html'
   end
@@ -32,6 +34,10 @@ class ApplicationController < ActionController::API
   end
 
   private
+
+    def not_authorized
+      render json: { error: 'Not authorized' }, status: :unauthorized
+    end
 
     def token
 
