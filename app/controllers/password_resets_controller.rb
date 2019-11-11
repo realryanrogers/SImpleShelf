@@ -16,6 +16,11 @@ class PasswordResetsController < ApplicationController
         render json: :ok
     end
 
+    def edit
+        puts @user
+        render json: :ok
+    end
+
 
     def set_user
         @user = User.find_by(reset_password_token: params[:token])
@@ -23,6 +28,7 @@ class PasswordResetsController < ApplicationController
     end
 
     def update
+        @user = User.find_by(reset_password_token: params[:token])
         @user.update!(password_params)
         @user.clear_password_token!
         render json: :ok
