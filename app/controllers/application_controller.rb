@@ -6,9 +6,13 @@ class ApplicationController < ActionController::API
 
   rescue_from ResetPasswordError, with: :not_authorized
 
-  def fallback_index_html
-    render :file => 'client/public/index.html'
-  end
+    def fallback_index_html
+      puts "fallback to HTML"
+      respond_to do |format|
+        puts "fallback to HTML"
+        format.html { render body: Rails.root.join('client/public/index.html').read }
+      end
+    end
 
   def logged_in?
     puts "checking current_user"
