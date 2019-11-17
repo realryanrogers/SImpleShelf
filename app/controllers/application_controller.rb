@@ -2,14 +2,12 @@ class ApplicationController < ActionController::API
   #skip_before_action :verify_authenticity_token
   include ActionController::MimeResponds
 
-  before_action :authenticate
+  before_action :authenticate, except: [:fallback_index_html]
 
   rescue_from ResetPasswordError, with: :not_authorized
 
   def fallback_index_html
-    respond_to do |format|
-      format.html { render body: Rails.root.join('client/public/index.html').read }
-    end
+    render :file => 'client/public/index.html'
   end
 
   def logged_in?
