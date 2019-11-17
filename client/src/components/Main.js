@@ -9,6 +9,7 @@ import Results from "./Results";
 import User from "../modules/User";
 import BookDetail from "./BookDetail";
 import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 class Main extends Component {
   constructor() {
@@ -70,15 +71,13 @@ class Main extends Component {
     this.props.history.push(`/bookdetail/${isbn}`);
   };
 
-  handleReset = email => {
+  handleResetRequest = email => {
     console.log(email);
     Auth.sendRecoveryEmail(email);
-    this.props.history.push({
-      pathname: "/resetpassword",
-      state: {
-        token_sent: false
-      }
-    });
+  };
+
+  handleSuccesfulReset = data => {
+    this.props.history.push("/");
   };
 
   render() {
@@ -148,7 +147,20 @@ class Main extends Component {
               exact
               path={"/resetpassword"}
               render={props => (
-                <ForgotPassword {...props} handleReset={this.handleReset} />
+                <ForgotPassword
+                  {...props}
+                  handleReset={this.handleResetRequest}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={"/resetpassword/:id"}
+              render={props => (
+                <ResetPassword
+                  {...props}
+                  handleSuccesfulReset={this.handleSuccesfulReset}
+                />
               )}
             />
           </Switch>

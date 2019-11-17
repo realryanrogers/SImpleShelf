@@ -21,6 +21,9 @@ class ForgotPassword extends Component {
     e.preventDefault();
 
     this.props.handleReset(this.state.email);
+    this.setState({
+      token_sent: true
+    });
   };
 
   showForm = () => {
@@ -85,7 +88,21 @@ class ForgotPassword extends Component {
         </div>
       );
     } else {
-      return <div>Password Sent</div>;
+      return (
+        <div className="row">
+          <div className="col-md-2"></div>
+          <div className="col-md-8 col-md-offset-4">
+            <div className="panel panel-default">
+              <div className="panel-body mt-4">
+                <div className="text-center">
+                  <h2 className="text-center">Reset Link Sent</h2>
+                  <p>Please check your email!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     }
   };
 

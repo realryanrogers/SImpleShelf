@@ -29,9 +29,25 @@ class PasswordResetsController < ApplicationController
 
     def update
         @user = User.find_by(reset_password_token: params[:token])
+        if !@user 
+            puts "true"
+            render json: {
+                status: "Token Invalid"
+            } 
+        elsif @user.reset_password_token_expires_at < Time.now
+            render json: {
+                status: "Token Expired"
+            } 
+        elsif params[:password] != params[:password_confirmation]
+            render json: {
+                status: "Mismatched Passwords"
+            }
+        end
         @user.update!(password_params)
         @user.clear_password_token!
-        render json: :ok
+        render json: {
+            status: "Password Reset"
+        }
     end
 
     def edit

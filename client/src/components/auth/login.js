@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
   constructor(props) {
@@ -91,7 +91,12 @@ export default class Login extends Component {
           <button type="submit" className="btn btn-info">
             Login
           </button>
-          <Link to="/resetpassword" style={{ textDecoration: 'none', padding: '10px'}}>Forgot your password? </Link>
+          <Link
+            to="/resetpassword"
+            style={{ textDecoration: "none", padding: "10px" }}
+          >
+            Forgot your password?{" "}
+          </Link>
         </form>
       </div>
     );
