@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
       puts "fallback to HTML"
       respond_to do |format|
         puts "fallback to HTML"
-        format.html { render body: Rails.root.join('client/public/index.html').read }
+        format.html { render body: Rails.root.join('public/index.html').read }
       end
     end
 
