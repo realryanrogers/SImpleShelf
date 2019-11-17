@@ -31,6 +31,17 @@ class User {
     }
   };
 
+  static getUserRatings = async jwt => {
+    if (Auth.isLoggedIn()) {
+      const response = await axios.get("/ratings", {
+        params: { public_user_id: this.decodeUserId(jwt) },
+        withCredentials: true,
+        headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}` }
+      });
+      return response;
+    }
+  };
+
   static decodeUserId(jwt) {
     console.log("Decoding", jwt);
     let decoded = jwt_decode(jwt);

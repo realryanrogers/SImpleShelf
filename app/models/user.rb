@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   before_create :randomize_public_id
   has_many :medias
+  has_many :ratings
 
   def generate_password_token!
     begin

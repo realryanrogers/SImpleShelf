@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import User from "../modules/User";
-import { Dropdown } from "react-bootstrap"
+import { Dropdown } from "react-bootstrap";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -19,6 +19,11 @@ export default class Dashboard extends Component {
     return user;
   }
 
+  async gettingRatings() {
+    const ratings = await User.getUserRatings(localStorage.getItem("jwt"));
+    return ratings;
+  }
+
   componentDidMount() {
     if (this.props.loggedInStatus === "true") {
       this.gettingState().then(response => {
@@ -29,6 +34,14 @@ export default class Dashboard extends Component {
           user_firstName: response.firstName,
           user_lastName: response.lastName
         });
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.loggedInStatus === "true") {
+      this.gettingRatings().then(res => {
+        console.log("Ratings", res);
       });
     }
   }
@@ -44,9 +57,7 @@ export default class Dashboard extends Component {
                 : ""}
             </h2>
           </div>
-          <div className="row">
-
-          </div>
+          <div className="row"></div>
         </div>
       </div>
     );
