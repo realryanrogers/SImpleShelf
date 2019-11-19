@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 
 class BookInfo extends Component {
   constructor(props) {
