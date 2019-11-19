@@ -16,6 +16,10 @@ class BookInfo extends Component {
     }
   }
 
+  handleClick = e => {
+    console.log(e.target.name);
+  };
+
   render() {
     return (
       <div
@@ -27,29 +31,35 @@ class BookInfo extends Component {
           <p>
             <small>by {this.props.author}</small>
           </p>
-          <Dropdown as={ButtonGroup}>
-            <Button variant="info" data-space="button">
-              Read It!
-            </Button>
 
-            <Dropdown.Toggle
-              split
-              variant="info"
-              id="dropdown-split-basic"
+          <ButtonGroup>
+            <Button
+              name="upButton"
+              variant="info border-right"
+              onClick={e => this.handleClick(e)}
               data-space="button"
-            />
-
-            <Dropdown.Menu>
-              <Dropdown.Item href="#" data-space="button">
-                Want to!
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#" data-space="button">
-                Send to Friend
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+            >
+              Up
+            </Button>
+            <Button
+              name="reviewButton"
+              variant="info border-left border-right"
+              onClick={e => this.handleClick(e)}
+              data-space="button"
+            >
+              Review It!
+            </Button>
+            <Button
+              name="downButton"
+              variant="info border-left"
+              onClick={e => this.handleClick(e)}
+              data-space="button"
+            >
+              Down
+            </Button>
+          </ButtonGroup>
         </div>
+
         <div className="image-parent">
           <img
             src={`https://covers.openlibrary.org/b/id/${this.props.cover}-M.jpg`}
