@@ -4,7 +4,6 @@ import Auth from "./Auth";
 
 class User {
   static getUserInfoo(jwt) {
-    console.log("return value: ", this.decodeUserId(jwt));
     axios
       .get("/users/" + this.decodeUserId(jwt), {
         withCredentials: true,
@@ -12,13 +11,10 @@ class User {
       })
       .then(response => {
         if (response.data.status === "success") {
-          console.log("response: ", response.data.user);
           return response.data.user;
         }
       })
-      .catch(error => {
-        console.log("Unable to fetch error", error);
-      });
+      .catch(error => {});
   }
 
   static getUserInfo = async jwt => {
@@ -43,9 +39,7 @@ class User {
   };
 
   static decodeUserId(jwt) {
-    console.log("Decoding", jwt);
     let decoded = jwt_decode(jwt);
-    console.log("decoded JWT: ", decoded["user"]);
     return decoded["user"];
   }
 }

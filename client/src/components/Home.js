@@ -14,7 +14,6 @@ export default class Home extends Component {
 
   handleSuccessfulAuth(data) {
     localStorage.setItem("jwt", data.jwt);
-    console.log(this.props);
     this.props.history.push("/dashboard");
   }
 

@@ -7,7 +7,6 @@ class ForgotPassword extends Component {
       email: "",
       token_sent: false
     };
-    console.log(this.props);
     this.handleReset = this.props.handleReset.bind(this);
   }
 
@@ -27,7 +26,6 @@ class ForgotPassword extends Component {
   };
 
   showForm = () => {
-    console.log(this.props);
     if (!this.state.token_sent) {
       return (
         <div className="row">

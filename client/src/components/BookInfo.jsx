@@ -17,7 +17,6 @@ class BookInfo extends Component {
   }
 
   handleClick = e => {
-    console.log("first");
     e.stopPropagation();
   };
 

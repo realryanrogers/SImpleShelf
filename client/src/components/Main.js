@@ -24,7 +24,6 @@ class Main extends Component {
   componentDidMount() {
     if (Auth.isLoggedIn().toString() === "true") {
       this.gettingUser().then(response => {
-        console.log("TEST: ", response);
         this.setState({
           user: response
         });
@@ -34,7 +33,6 @@ class Main extends Component {
 
   async gettingUser() {
     const user = await User.getUserInfo(localStorage.getItem("jwt"));
-    console.log("user: ", user);
     return user;
   }
 
@@ -49,9 +47,7 @@ class Main extends Component {
   };
 
   handleSearchSubmit = term => {
-    console.log("Search Input Main");
     if (term) {
-      console.log("pushing");
       this.props.history.push({
         pathname: "/results",
         state: {
@@ -67,12 +63,10 @@ class Main extends Component {
 
   handleBookClick = isbn => {
     /* this.props.history.push(`/bookdetail/${isbn}`); */
-    console.log(isbn);
     this.props.history.push(`/bookdetail/${isbn}`);
   };
 
   handleResetRequest = email => {
-    console.log(email);
     Auth.sendRecoveryEmail(email);
   };
 
@@ -92,8 +86,8 @@ class Main extends Component {
         <div className="container">
           <Switch>
             <Route
-              exact
               path={"/"}
+              exact
               render={props => (
                 <Home
                   {...props}
@@ -102,8 +96,8 @@ class Main extends Component {
               )}
             />
             <Route
-              exact
               path={"/dashboard"}
+              exact
               render={props => (
                 <Dashboard
                   {...props}
@@ -113,8 +107,8 @@ class Main extends Component {
               )}
             />
             <Route
-              exact
               path={"/media/:type/:id"}
+              exact
               render={props => (
                 <Media
                   {...props}
@@ -123,8 +117,8 @@ class Main extends Component {
               )}
             />
             <Route
-              exact
               path={"/results"}
+              exact
               render={props => (
                 <Results
                   {...props}
@@ -144,8 +138,8 @@ class Main extends Component {
               )}
             />
             <Route
-              exact
               path={"/resetpassword"}
+              exact
               render={props => (
                 <ForgotPassword
                   {...props}
@@ -154,8 +148,8 @@ class Main extends Component {
               )}
             />
             <Route
-              exact
               path={"/resetpassword/:id"}
+              exact
               render={props => (
                 <ResetPassword
                   {...props}

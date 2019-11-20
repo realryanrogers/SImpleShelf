@@ -16,13 +16,11 @@ class BookDetail extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props);
     this.getBook(this.props.match.params.id);
   };
 
   getBook = async isbn => {
     const response = await BookAPI.getBook(isbn);
-    console.log("detail response: ", response);
     const isbnstr = `ISBN:${this.props.match.params.id}`;
     this.setState({
       author: response.data[isbnstr].authors
@@ -34,7 +32,6 @@ class BookDetail extends Component {
       title: response.data[isbnstr].title,
       isbn: this.props.match.params.id
     });
-    console.log(this.state);
   };
 
   showResult = () => {

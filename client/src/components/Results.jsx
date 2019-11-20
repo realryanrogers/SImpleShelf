@@ -18,7 +18,6 @@ class Results extends Component {
   }
   componentDidMount() {
     this.onTermSubmit(this.props.location.state.searchText);
-    console.log(process.env.ISBNDB_SECRET);
   }
 
   componentDidUpdate = prevProps => {
@@ -33,14 +32,12 @@ class Results extends Component {
 
   onTermSubmit = async term => {
     const response = await BookAPI.openLibSearch(term);
-    console.log("respoine: ", response);
     this.setState({
       results: response.data
     });
   };
 
   showResults = () => {
-    console.log("results: ", this.state.results);
     const resultData = this.state.results.docs.slice(0, 19);
     const sendBack = this.state.showFull ? this.state.results.docs : resultData;
     return (

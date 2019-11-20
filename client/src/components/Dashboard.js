@@ -27,7 +27,6 @@ export default class Dashboard extends Component {
   componentDidMount() {
     if (this.props.loggedInStatus === "true") {
       this.gettingState().then(response => {
-        console.log("TEST: ", response);
         this.setState({
           user_id: response.id,
           user_email: response.email,
@@ -40,9 +39,7 @@ export default class Dashboard extends Component {
 
   componentDidUpdate() {
     if (this.props.loggedInStatus === "true") {
-      this.gettingRatings().then(res => {
-        console.log("Ratings", res);
-      });
+      this.gettingRatings().then(res => {});
     }
   }
 

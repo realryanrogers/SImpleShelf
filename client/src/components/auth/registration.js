@@ -36,14 +36,12 @@ export default class Registration extends Component {
           });
           this.props.handleSuccessfulAuth(response.data);
         } else {
-          console.log("error encountered");
           this.setState({
             registrationErrors: "registration"
           });
         }
       })
       .catch(error => {
-        console.log("registration error", error);
         this.setState({
           registrationErrors: "registration"
         });

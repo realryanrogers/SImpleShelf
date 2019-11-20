@@ -11,7 +11,6 @@ class BookSearch extends Component {
   }
 
   handleSubmit(e) {
-    console.log("Event: ", e);
     e.preventDefault();
   }
 

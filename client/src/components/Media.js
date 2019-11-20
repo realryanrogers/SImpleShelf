@@ -6,7 +6,6 @@ class Media extends Component {
     this.state = {};
   }
   render() {
-    console.log(this.props.match.params["id"]);
     return <div></div>;
   }
 }
