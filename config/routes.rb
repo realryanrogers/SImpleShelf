@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       patch ':token', action: :update
     end
   end
-  resources :ratings, only: [:index, :show, :edit]
+  resources :ratings, only: [:index, :show, :edit, :create]
   get '/booksearch', to: "static#booksearch"
   post '/login', to: "sessions#create"
   root to: "static#home"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_17_224321) do
+ActiveRecord::Schema.define(version: 2019_11_20_140217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_11_17_224321) do
     t.string "media_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "review"
     t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
