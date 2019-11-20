@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import { Button, ButtonGroup } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 class BookInfo extends Component {
   constructor(props) {
@@ -39,7 +41,7 @@ class BookInfo extends Component {
               onClick={e => this.handleClick(e)}
               data-space="button"
             >
-              Up
+              <FontAwesomeIcon icon={faThumbsUp} />
             </Button>
             <Button
               name="reviewButton"
@@ -51,11 +53,14 @@ class BookInfo extends Component {
             </Button>
             <Button
               name="downButton"
-              variant="info border-left"
+              variant="info border-left hover-white"
               onClick={e => this.handleClick(e)}
               data-space="button"
             >
-              Down
+              <FontAwesomeIcon
+                icon={faThumbsDown}
+                className="fa-flip-horizontal"
+              />
             </Button>
           </ButtonGroup>
         </div>
