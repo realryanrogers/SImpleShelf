@@ -13,13 +13,12 @@ class BookInfo extends Component {
   }
 
   divClick(e) {
-    if (e.target.dataset.space !== "button") {
-      this.props.handleBookClick(this.props.isbn);
-    }
+    this.props.handleBookClick(this.props.isbn);
   }
 
   handleClick = e => {
-    console.log(e.target.name);
+    console.log("first");
+    e.stopPropagation();
   };
 
   render() {
@@ -41,7 +40,7 @@ class BookInfo extends Component {
               onClick={e => this.handleClick(e)}
               data-space="button"
             >
-              <FontAwesomeIcon icon={faThumbsUp} />
+              <FontAwesomeIcon icon={faThumbsUp} data-space="button" />
             </Button>
             <Button
               name="reviewButton"
@@ -58,8 +57,10 @@ class BookInfo extends Component {
               data-space="button"
             >
               <FontAwesomeIcon
+                name="downIcon"
                 icon={faThumbsDown}
                 className="fa-flip-horizontal"
+                onClick={e => this.handleClick(e)}
               />
             </Button>
           </ButtonGroup>
