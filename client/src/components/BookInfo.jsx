@@ -19,6 +19,10 @@ class BookInfo extends Component {
   handleClick = (e, action) => {
     if (["up", "down"].includes(action)) {
     }
+    this.props.handleRatingClick({
+      id: this.props.google_id,
+      value: action
+    });
     e.stopPropagation();
   };
 
@@ -37,8 +41,10 @@ class BookInfo extends Component {
           <ButtonGroup>
             <Button
               name="upButton"
-              variant="info border-right"
-              onClick={e => this.handleClick(e)}
+              variant={`${
+                this.props.rating === 5 ? "primary" : "info"
+              } border-left hover-white`}
+              onClick={e => this.handleClick(e, "up")}
               data-space="button"
             >
               <FontAwesomeIcon icon={faThumbsUp} data-space="button" />
@@ -46,15 +52,17 @@ class BookInfo extends Component {
             <Button
               name="reviewButton"
               variant="info border-left border-right"
-              onClick={e => this.handleClick(e, "up")}
+              onClick={e => this.handleClick(e, "review")}
               data-space="button"
             >
-              Review It!
+              {`${this.props.review ? "See Review" : "Review It!"}`}
             </Button>
             <Button
               name="downButton"
-              variant="info border-left hover-white"
-              onClick={e => this.handleClick(e, "review")}
+              variant={`${
+                this.props.rating === 1 ? "primary" : "info"
+              } border-left hover-white`}
+              onClick={e => this.handleClick(e, "down")}
               data-space="button"
             >
               <FontAwesomeIcon

@@ -18,12 +18,12 @@ class BookAPI {
     return response;
   };
 
-  static getBook = async isbn => {
+  static getBook = async googleID => {
     const response = await axios.get(
       // `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
-      `https://www.googleapis.com/books/v1/volumes?q=ISBN:${isbn}&maxResults=1`
+      `https://www.googleapis.com/books/v1/volumes/${googleID}`
     );
-    return response;
+    return response.data;
   };
 }
 

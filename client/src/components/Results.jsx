@@ -42,6 +42,7 @@ class Results extends Component {
     const sendBack = this.state.showFull
       ? this.state.results.items
       : resultData;
+    console.log("send", sendBack);
     return (
       <ul className="list-group">
         {sendBack.map((item, key) => (
@@ -51,13 +52,10 @@ class Results extends Component {
             author={
               item.volumeInfo.authors ? item.volumeInfo.authors[0] : "Unknown"
             }
-            isbn={
-              item.volumeInfo.industryIdentifiers
-                ? item.volumeInfo.industryIdentifiers[0].identifier
-                : "Unknown"
-            }
+            google_id={item.id ? item.id : "Unknown"}
             key={key.toString()}
             handleBookClick={this.props.handleBookClick}
+            handleRatingClick={this.props.handleRatingClick}
           />
         ))}
       </ul>

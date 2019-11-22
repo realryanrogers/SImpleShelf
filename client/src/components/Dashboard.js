@@ -28,34 +28,41 @@ export default class Dashboard extends Component {
     return ratings;
   }
 
-  getBookDetails = async book => {
+  getBookDetails = async (book, key) => {
     /* From here, seperate out the books, pass each book into
     the details page. Only do top 20 to start, to keep the column */
     // const response = await BookAPI.getBookDetails(isbn);
     // return response;
-    if (book.type_id) {
-      const bookAPIObject = await BookAPI.getBook(book.type_id);
-      console.log(bookAPIObject);
-    }
+    if (book.google_id) {
+      const bookInfo = await BookAPI.getBook(book.google_id);
 
-    const detailBook = { ...book, header: "3" };
-    return detailBook;
+      const detailBook = { ...book, bookInfo };
+      console.log(detailBook);
+      return detailBook;
+    } else {
+      return book;
+    }
   };
 
   showReviews = () => {
-    if (!this.state.ratings[0]) {
+    if (!this.props.ratings[0]) {
       return "Loading";
     } else {
+      console.log("Review Ratings: ", this.props.ratings);
       return (
         <ul className="list-group">
-          {this.state.ratings.map((docs, key) => (
+          {this.props.ratings.map((docs, key) => (
             <BookInfo
-              title={"Title"}
-              cover={"cover"}
-              author={"Unknown"}
-              isbn={"Unknown"}
+              title={docs.bookInfo ? docs.bookInfo.volumeInfo.title : "Unknown"}
+              cover={docs.google_id ? docs.google_id : "cover"}
+              author={
+                docs.bookInfo ? docs.bookInfo.volumeInfo.authors[0] : "Unknown"
+              }
+              google_id={docs.bookInfo ? docs.bookInfo.id : "Unknown"}
               key={key.toString()}
               handleBookClick={this.props.handleBookClick}
+              rating={docs.value}
+              handleRatingClick={this.props.handleRatingClick}
             />
           ))}
         </ul>
@@ -65,44 +72,27 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     if (this.props.loggedInStatus === "true") {
-      this.gettingRatings().then(res => {
-        this.setState({
-          ratings: res.data
-        });
-        const sortedRating = this.state.ratings.map((rating, key) =>
-          this.getBookDetails(rating)
-        );
-        console.log(sortedRating);
-      });
-      this.gettingState().then(response => {
-        this.setState({
-          user_id: response.id,
-          user_email: response.email,
-          user_firstName: response.firstName,
-          user_lastName: response.lastName
-        });
-      });
     }
   }
 
   componentDidUpdate() {
     if (this.props.loggedInStatus === "true") {
+      console.log("State: ", this.state);
     }
+    console.log(this.props);
   }
 
   render() {
     return (
       <div>
         <div>
-          <div className="row">
-            <h2>
-              {this.state.user_firstName
-                ? `${this.state.user_firstName} ${this.state.user_lastName}`
-                : ""}
-            </h2>
-          </div>
-          <div className="row">{this.showReviews()}</div>
+          <h2>
+            {this.state.user_firstName
+              ? `${this.state.user_firstName} ${this.state.user_lastName}`
+              : ""}
+          </h2>
         </div>
+        <div>{this.showReviews()}</div>
       </div>
     );
   }

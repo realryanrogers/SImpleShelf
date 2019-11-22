@@ -21,15 +21,11 @@ class BookDetail extends Component {
 
   getBook = async isbn => {
     const response = await BookAPI.getBook(isbn);
-    const isbnstr = `ISBN:${this.props.match.params.id}`;
+    console.log("detail res", response.id);
     this.setState({
-      author: response.data[isbnstr].authors
-        ? response.data[isbnstr].authors[0].name
-        : "Unknown",
-      cover: response.data[isbnstr].cover
-        ? response.data[isbnstr].cover.medium
-        : "undefined",
-      title: response.data[isbnstr].title,
+      author: response.volumeInfo ? response.volumeInfo.authors[0] : "Unknown",
+      cover: response.id ? response.id : "undefined",
+      title: response.volumeInfo.title,
       isbn: this.props.match.params.id
     });
   };
@@ -75,7 +71,9 @@ class BookDetail extends Component {
             </Button>
           </div>
           <div className="col-3">
-            <img src={this.state.cover} />
+            <img
+              src={`http://books.google.com/books/content?id=${this.state.cover}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
+            />
           </div>
         </div>
         <div className="row mb-2">

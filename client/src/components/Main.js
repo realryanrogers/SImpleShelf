@@ -10,6 +10,7 @@ import User from "../modules/User";
 import BookDetail from "./BookDetail";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
+import BookAPI from "../modules/BookAPI";
 
 class Main extends Component {
   constructor() {
@@ -17,7 +18,8 @@ class Main extends Component {
 
     this.state = {
       loggedInStatus: Auth.isLoggedIn().toString(),
-      user: {}
+      user: {},
+      ratings: {}
     };
   }
 
@@ -28,13 +30,47 @@ class Main extends Component {
           user: response
         });
       });
+      this.gettingRatings().then(res => {
+        this.setState({
+          ratings: res.data
+        });
+        const sortedRating = this.state.ratings.map((rating, key) =>
+          this.getBookDetails(rating, key)
+        );
+        Promise.all(sortedRating).then(completed =>
+          this.setState({
+            ratings: completed
+          })
+        );
+      });
     }
+  }
+
+  async gettingRatings() {
+    const ratings = await User.getUserRatings(localStorage.getItem("jwt"));
+    return ratings;
   }
 
   async gettingUser() {
     const user = await User.getUserInfo(localStorage.getItem("jwt"));
     return user;
   }
+
+  getBookDetails = async (book, key) => {
+    /* From here, seperate out the books, pass each book into
+    the details page. Only do top 20 to start, to keep the column */
+    // const response = await BookAPI.getBookDetails(isbn);
+    // return response;
+    if (book.google_id) {
+      const bookInfo = await BookAPI.getBook(book.google_id);
+
+      const detailBook = { ...book, bookInfo };
+      console.log(detailBook);
+      return detailBook;
+    } else {
+      return book;
+    }
+  };
 
   handleRoute = route => () => {
     this.props.history.push({ pathname: route });
@@ -74,6 +110,10 @@ class Main extends Component {
     this.props.history.push("/");
   };
 
+  handleRatingClick = data => {
+    console.log("Rate Click: ", data);
+  };
+
   render() {
     return (
       <div className="app">
@@ -104,6 +144,8 @@ class Main extends Component {
                   loggedInStatus={Auth.isLoggedIn().toString()}
                   handleLogout={this.handleLogout}
                   handleBookClick={this.handleBookClick}
+                  ratings={this.state.ratings}
+                  handleRatingClick={this.handleRatingClick}
                 />
               )}
             />
@@ -125,6 +167,7 @@ class Main extends Component {
                   {...props}
                   loggedInStatus={Auth.isLoggedIn().toString()}
                   handleBookClick={this.handleBookClick}
+                  handleRatingClick={this.handleRatingClick}
                 />
               )}
             />
