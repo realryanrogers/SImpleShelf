@@ -39,7 +39,6 @@ class ForgotPassword extends Component {
                   <div className="panel-body">
                     <form
                       id="register-form"
-                      role="form"
                       autoComplete="off"
                       className="form"
                       method="post"

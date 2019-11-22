@@ -73,6 +73,7 @@ class BookDetail extends Component {
           <div className="col-3">
             <img
               src={`http://books.google.com/books/content?id=${this.state.cover}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
+              alt="cover"
             />
           </div>
         </div>

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import User from "../modules/User";
-import { Dropdown } from "react-bootstrap";
-import Rating from "../modules/Rating";
 import BookInfo from "./BookInfo";
 import BookAPI from "../modules/BookAPI";
 

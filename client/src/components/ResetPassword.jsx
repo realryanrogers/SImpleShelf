@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 class ResetPassword extends Component {
@@ -74,7 +73,6 @@ class ResetPassword extends Component {
                   {this.displayError(this.state.resetErrors)}
                   <form
                     id="register-form"
-                    role="form"
                     autoComplete="off"
                     className="form"
                     method="post"
