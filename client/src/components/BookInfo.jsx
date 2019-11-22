@@ -16,7 +16,9 @@ class BookInfo extends Component {
     this.props.handleBookClick(this.props.isbn);
   }
 
-  handleClick = e => {
+  handleClick = (e, action) => {
+    if (["up", "down"].includes(action)) {
+    }
     e.stopPropagation();
   };
 
@@ -44,7 +46,7 @@ class BookInfo extends Component {
             <Button
               name="reviewButton"
               variant="info border-left border-right"
-              onClick={e => this.handleClick(e)}
+              onClick={e => this.handleClick(e, "up")}
               data-space="button"
             >
               Review It!
@@ -52,14 +54,14 @@ class BookInfo extends Component {
             <Button
               name="downButton"
               variant="info border-left hover-white"
-              onClick={e => this.handleClick(e)}
+              onClick={e => this.handleClick(e, "review")}
               data-space="button"
             >
               <FontAwesomeIcon
                 name="downIcon"
                 icon={faThumbsDown}
                 className="fa-flip-horizontal"
-                onClick={e => this.handleClick(e)}
+                onClick={e => this.handleClick(e, "down")}
               />
             </Button>
           </ButtonGroup>
@@ -67,7 +69,7 @@ class BookInfo extends Component {
 
         <div className="image-parent">
           <img
-            src={`https://covers.openlibrary.org/b/id/${this.props.cover}-M.jpg`}
+            src={`http://books.google.com/books/content?id=${this.props.cover}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
             height="150"
             width="100"
             alt={this.props.title}

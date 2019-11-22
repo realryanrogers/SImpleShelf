@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import BookInfo from "./BookInfo";
 import BookAPI from "../modules/BookAPI";
-import { Card, Button } from "react-bootstrap";
 
 class Results extends Component {
   constructor(props) {
@@ -31,23 +30,32 @@ class Results extends Component {
   };
 
   onTermSubmit = async term => {
-    const response = await BookAPI.openLibSearch(term);
+    const response = await BookAPI.bookSearch(term);
+    console.log(response);
     this.setState({
       results: response.data
     });
   };
 
   showResults = () => {
-    const resultData = this.state.results.docs.slice(0, 19);
-    const sendBack = this.state.showFull ? this.state.results.docs : resultData;
+    const resultData = this.state.results.items;
+    const sendBack = this.state.showFull
+      ? this.state.results.items
+      : resultData;
     return (
       <ul className="list-group">
-        {sendBack.map((docs, key) => (
+        {sendBack.map((item, key) => (
           <BookInfo
-            title={docs.title}
-            cover={docs.cover_i}
-            author={docs.author_name ? docs.author_name[0] : "Unknown"}
-            isbn={docs.isbn ? docs.isbn[docs.isbn.length - 1] : "Unknown"}
+            title={item.volumeInfo.title}
+            cover={item.id}
+            author={
+              item.volumeInfo.authors ? item.volumeInfo.authors[0] : "Unknown"
+            }
+            isbn={
+              item.volumeInfo.industryIdentifiers
+                ? item.volumeInfo.industryIdentifiers[0].identifier
+                : "Unknown"
+            }
             key={key.toString()}
             handleBookClick={this.props.handleBookClick}
           />
@@ -57,7 +65,7 @@ class Results extends Component {
   };
 
   render() {
-    if (!this.state.results.docs) {
+    if (!this.state.results.items) {
       return <div>Loading...</div>;
     } else if (this.state.results.total === 0) {
       return <div>No results found</div>;

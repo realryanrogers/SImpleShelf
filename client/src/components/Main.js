@@ -103,6 +103,7 @@ class Main extends Component {
                   {...props}
                   loggedInStatus={Auth.isLoggedIn().toString()}
                   handleLogout={this.handleLogout}
+                  handleBookClick={this.handleBookClick}
                 />
               )}
             />

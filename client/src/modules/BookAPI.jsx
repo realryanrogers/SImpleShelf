@@ -4,12 +4,9 @@ import Auth from "./Auth";
 class BookAPI {
   static bookSearch = async term => {
     if (Auth.isLoggedIn()) {
-      const response = await axios.get("/booksearch?term=" + term, {
-        withCredentials: true,
-        headers: {
-          "HTTP-AUTHORIZATION": `Bearer ${localStorage.getItem("jwt")}`
-        }
-      });
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=40`
+      );
       return response;
     }
   };
@@ -23,7 +20,8 @@ class BookAPI {
 
   static getBook = async isbn => {
     const response = await axios.get(
-      `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
+      // `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
+      `https://www.googleapis.com/books/v1/volumes?q=ISBN:${isbn}&maxResults=1`
     );
     return response;
   };
