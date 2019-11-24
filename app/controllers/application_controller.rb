@@ -32,6 +32,9 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate
+    puts "Params"
+    puts params
+    puts request.env["HTTP-AUTHORIZATION"]
      if logged_in?
      else
        render json: {error: "Unauthorized"}, status: 401
@@ -55,6 +58,8 @@ class ApplicationController < ActionController::API
     end
 
     def auth_present?
+      puts "Checking auth"
+      puts request.headers.fetch("HTTP-AUTHORIZATION", "")
       !!request.headers.fetch("HTTP-AUTHORIZATION", "").scan(/Bearer/).flatten.first
     end
 

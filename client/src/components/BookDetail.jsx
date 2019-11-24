@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BookAPI from "../modules/BookAPI";
-import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import { Dropdown, Button, ButtonGroup, ProgressBar } from "react-bootstrap";
 
 class BookDetail extends Component {
   constructor(props) {
@@ -17,10 +17,12 @@ class BookDetail extends Component {
 
   componentDidMount = () => {
     this.getBook(this.props.match.params.id);
+    console.log(this.props);
   };
 
   getBook = async isbn => {
     const response = await BookAPI.getBook(isbn);
+    const serverDetails = await BookAPI.getServerDetails(isbn);
     console.log("detail res", response.id);
     this.setState({
       author: response.volumeInfo ? response.volumeInfo.authors[0] : "Unknown",
@@ -28,6 +30,28 @@ class BookDetail extends Component {
       title: response.volumeInfo.title,
       isbn: this.props.match.params.id
     });
+  };
+
+  showReviewForm = () => {
+    if (
+      this.props.location.state &&
+      this.props.location.state.showReviewField
+    ) {
+      return (
+        <div className="row">
+          <div className="col-sm-3"></div>
+          <div className="col-md-6">
+            <form onSubmit={this.handleSubmit}>
+              <label>Essay:</label>
+              <br />
+              <textarea value={this.state.value} onChange={this.handleChange} />
+              <br />
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        </div>
+      );
+    }
   };
 
   showResult = () => {
@@ -83,9 +107,11 @@ class BookDetail extends Component {
             <p className="small">Total ratings: 2334</p>
           </div>
           <div className="col-md-2">
-            <p className="small">Avg Rating: 2334</p>
+            <p className="small">Avg Rating:</p>{" "}
+            <ProgressBar variant="info" now={(1 / 2) * 100} />
           </div>
         </div>
+        {this.showReviewForm()}
         <div className="row">
           <div className="col-sm-3"></div>
           <div className="col-md-6">

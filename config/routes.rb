@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
   resources :ratings, only: [:index, :show, :edit, :create]
   get '/booksearch', to: "static#booksearch"
+  get '/bookdetails', to: "ratings#bookDetails"
   post '/login', to: "sessions#create"
   root to: "static#home"
   get '*path', to: "application#fallback_index_html", constraints: ->(request) do

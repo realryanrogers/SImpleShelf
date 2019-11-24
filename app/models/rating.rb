@@ -9,11 +9,26 @@ class Rating < ApplicationRecord
 
   end
 
+  def self.getDetails(book_id)
+    ratings = Rating.where(google_id: book_id)
+    response = {}
+    response["total"] = Rating.where(google_id: book_id).count
+    response["text"] = Rating.where(google_id: book_id).where.not(review: nil).order(created_at: :desc).limit(20).pluck(:user_id, :review).to_h
+    response["likes"] = Rating.where(google_id: book_id).where(value: 5).count
+    response["dislikes"] = Rating.where(google_id: book_id).where(value: 1).count
+    return response
+
+
+  end
+
   def self.handleRating(user, params)
-    params["user_id"] = user.id
-    if params["type_id"].present?
+    puts "Params"
+    puts params
+    if params["google_id"].present?
       puts "rating present"
-      rating = user.ratings.find_by(type_id: params["type_id"])
+      rating = user.ratings.find_by(google_id: params["google_id"])
+      puts "RATING"
+      puts rating.present?
     else
 
       return {"status": "error"}
@@ -23,8 +38,11 @@ class Rating < ApplicationRecord
       "updating rating"
       return rating.update(params)
     else
-      "creating rating"
-      return Rating.create(params)
+      puts "creating rating"
+      params["user_id"] = user.id
+      res = Rating.create(params)
+      puts "RES"
+      puts res.id
     end
 
   end

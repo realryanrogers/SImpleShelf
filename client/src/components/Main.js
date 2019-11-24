@@ -11,6 +11,7 @@ import BookDetail from "./BookDetail";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import BookAPI from "../modules/BookAPI";
+import Rating from "../modules/Rating";
 
 class Main extends Component {
   constructor() {
@@ -110,8 +111,21 @@ class Main extends Component {
     this.props.history.push("/");
   };
 
-  handleRatingClick = data => {
-    console.log("Rate Click: ", data);
+  handleRatingClick = async data => {
+    if (data.value === "review") {
+      this.props.history.push({
+        pathname: `/bookdetail/${data.google_id}`,
+        state: {
+          showReviewField: true
+        }
+      });
+    } else {
+      console.log("Rate Click: ", data);
+      const rating = Rating.build(data);
+      console.log("Built Rating: ", rating);
+      const response = await Rating.addRating(rating);
+      console.log(response);
+    }
   };
 
   render() {

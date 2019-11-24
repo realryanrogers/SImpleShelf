@@ -25,6 +25,17 @@ class BookAPI {
     );
     return response.data;
   };
+
+  static getServerDetails = async googleID => {
+    const headers = {
+      "HTTP-AUTHORIZATION": `Bearer ${localStorage.getItem("jwt")}`
+    };
+    const response = await axios.get(`/bookdetails?book_id=${googleID}`, {
+      withCredentials: true,
+      headers: headers
+    });
+    return response;
+  };
 }
 
 export default BookAPI;
