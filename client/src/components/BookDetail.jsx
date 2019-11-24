@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import BookAPI from "../modules/BookAPI";
-import { Dropdown, Button, ButtonGroup, ProgressBar } from "react-bootstrap";
+import {
+  Dropdown,
+  Button,
+  ButtonGroup,
+  ProgressBar,
+  Form,
+  Jumbotron
+} from "react-bootstrap";
+import NavLink from "react-bootstrap/NavLink";
 
 class BookDetail extends Component {
   constructor(props) {
@@ -11,9 +19,31 @@ class BookDetail extends Component {
       publish_date: "",
       title: "",
       isbn: "",
-      cover: ""
+      cover: "",
+      totalRatings: null,
+      totalLikes: null,
+      reviews: [],
+      selfReview: "",
+      isEditing: false
     };
   }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    this.props.handleRatingClick({
+      google_id: this.props.match.params.id,
+      review: this.state.selfReview
+    });
+    this.setState({
+      isEditing: false
+    });
+    e.preventDefault();
+  };
 
   componentDidMount = () => {
     this.getBook(this.props.match.params.id);
@@ -23,31 +53,72 @@ class BookDetail extends Component {
   getBook = async isbn => {
     const response = await BookAPI.getBook(isbn);
     const serverDetails = await BookAPI.getServerDetails(isbn);
+    console.log("Server Deets: ", serverDetails);
     console.log("detail res", response.id);
+
     this.setState({
       author: response.volumeInfo ? response.volumeInfo.authors[0] : "Unknown",
       cover: response.id ? response.id : "undefined",
       title: response.volumeInfo.title,
-      isbn: this.props.match.params.id
+      isbn: this.props.match.params.id,
+      totalRatings: serverDetails.data.total,
+      totalLikes: serverDetails.data.likes,
+      reviews: serverDetails.data.text,
+      selfReview: serverDetails.data.selfReview[0]
+        ? serverDetails.data.selfReview[0].review
+        : ""
     });
+    console.log("State: ", this.state);
+  };
+
+  handleEdit = e => {
+    this.setState({
+      isEditing: true
+    });
+    e.preventDefault();
   };
 
   showReviewForm = () => {
-    if (
-      this.props.location.state &&
-      this.props.location.state.showReviewField
-    ) {
+    if (this.state.isEditing || !this.state.selfReview) {
       return (
         <div className="row">
           <div className="col-sm-3"></div>
           <div className="col-md-6">
-            <form onSubmit={this.handleSubmit}>
-              <label>Essay:</label>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group controlId="formReviewText">
+                <Form.Label>
+                  <b>Your Thoughts:</b>
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  name="selfReview"
+                  value={this.state.selfReview}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Button variant="info" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="row">
+          <div className="col-sm-3"></div>
+          <div className="col-md-6">
+            <strong>Your Thoughts:</strong>
+
+            <div className="border-left ml-2 px-2">
+              {this.state.selfReview}
               <br />
-              <textarea value={this.state.value} onChange={this.handleChange} />
               <br />
-              <input type="submit" value="Submit" />
-            </form>
+              <Button variant="info" onClick={this.handleEdit}>
+                Edit
+              </Button>
+            </div>
           </div>
         </div>
       );
@@ -104,11 +175,14 @@ class BookDetail extends Component {
         <div className="row mb-2">
           <div className="col-sm-3"></div>
           <div className="col-md-2">
-            <p className="small">Total ratings: 2334</p>
+            <p className="small">Total ratings: {this.state.totalLikes}</p>
           </div>
           <div className="col-md-2">
             <p className="small">Avg Rating:</p>{" "}
-            <ProgressBar variant="info" now={(1 / 2) * 100} />
+            <ProgressBar
+              variant="info"
+              now={(this.state.totalLikes / this.state.totalRatings) * 100}
+            />
           </div>
         </div>
         {this.showReviewForm()}

@@ -9,13 +9,14 @@ class Rating < ApplicationRecord
 
   end
 
-  def self.getDetails(book_id)
+  def self.getDetails(book_id, user_id)
     ratings = Rating.where(google_id: book_id)
     response = {}
     response["total"] = Rating.where(google_id: book_id).count
-    response["text"] = Rating.where(google_id: book_id).where.not(review: nil).order(created_at: :desc).limit(20).pluck(:user_id, :review).to_h
+    response["text"] = Rating.joins(:user).where(google_id: book_id).where.not(review: nil).order(created_at: :desc).limit(20).pluck(:firstname, :review).to_h
     response["likes"] = Rating.where(google_id: book_id).where(value: 5).count
     response["dislikes"] = Rating.where(google_id: book_id).where(value: 1).count
+    response["selfReview"] = ratings.where(user_id: user_id)
     return response
 
 

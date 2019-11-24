@@ -192,6 +192,8 @@ class Main extends Component {
                 <BookDetail
                   {...props}
                   loggedInStatus={Auth.isLoggedIn().toString()}
+                  handleRatingClick={this.handleRatingClick}
+                  userRatings={this.state.ratings}
                 />
               )}
             />

@@ -23,9 +23,10 @@ class RatingsController < ApplicationController
     def bookDetails
         puts "Details"
         #send back: Total ratings, text of reviews (cap at 10), review from user, total positive ratings
-        ratings = Rating.getDetails(params["book_id"])
+        
+        ratings = Rating.getDetails(params["book_id"], current_user.id)
         puts ratings
-        render json: {status: "success"}
+        render json: ratings.to_json
     end
 
     private
