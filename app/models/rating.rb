@@ -1,5 +1,7 @@
 class Rating < ApplicationRecord
-  belongs_to :user
+  belongs_to :shelf
+
+  delegate :user, :to => :shelf, :allow_nil => true
 
 
 

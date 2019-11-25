@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_22_152642) do
+ActiveRecord::Schema.define(version: 2019_11_25_134735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -47,7 +47,18 @@ ActiveRecord::Schema.define(version: 2019_11_22_152642) do
     t.text "review"
     t.json "details"
     t.string "google_id"
+    t.bigint "shelf_id"
+    t.index ["shelf_id"], name: "index_ratings_on_shelf_id"
     t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
+  create_table "shelves", force: :cascade do |t|
+    t.string "name"
+    t.uuid "user_id", null: false
+    t.boolean "public"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_shelves_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,5 +76,7 @@ ActiveRecord::Schema.define(version: 2019_11_22_152642) do
 
   add_foreign_key "media", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "ratings", "shelves"
   add_foreign_key "ratings", "users"
+  add_foreign_key "shelves", "users"
 end

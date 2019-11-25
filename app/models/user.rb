@@ -6,7 +6,8 @@ class User < ApplicationRecord
 
   before_create :randomize_public_id
   has_many :medias
-  has_many :ratings
+  has_many :ratings, :through => :shelves
+  has_many :shelves
 
   def generate_password_token!
     begin

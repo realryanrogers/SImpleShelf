@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     end
   end
   resources :ratings, only: [:index, :show, :edit, :create]
+  resources :shelves, only: [:index, :show, :edit, :create]
   get '/booksearch', to: "static#booksearch"
   get '/bookdetails', to: "ratings#bookDetails"
   post '/login', to: "sessions#create"
