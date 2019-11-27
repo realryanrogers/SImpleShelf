@@ -1,5 +1,4 @@
 import axios from "axios";
-import NavLink from "react-bootstrap/NavLink";
 
 class Rating {
   static addRating = async rating => {
