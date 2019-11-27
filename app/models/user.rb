@@ -5,8 +5,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
 
   before_create :randomize_public_id
-  has_many :medias
-  has_many :ratings, :through => :shelves
+  has_many :books, :through => :shelves
   has_many :shelves
 
   def generate_password_token!

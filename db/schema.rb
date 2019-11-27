@@ -10,46 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_134735) do
+ActiveRecord::Schema.define(version: 2019_11_27_221552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "media", force: :cascade do |t|
-    t.uuid "user_id", null: false
+  create_table "books", force: :cascade do |t|
     t.string "name"
-    t.string "property_type"
+    t.string "isbn"
+    t.string "book_identifier"
+    t.json "rating"
+    t.bigint "shelf_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "media_id"
-    t.string "media_id_type"
-    t.index ["user_id"], name: "index_media_on_user_id"
-  end
-
-  create_table "profiles", force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "name"
-    t.integer "age"
-    t.string "city"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id"
-  end
-
-  create_table "ratings", force: :cascade do |t|
-    t.integer "value"
-    t.uuid "user_id", null: false
-    t.string "type_id"
-    t.string "media_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.text "review"
-    t.json "details"
-    t.string "google_id"
-    t.bigint "shelf_id"
-    t.index ["shelf_id"], name: "index_ratings_on_shelf_id"
-    t.index ["user_id"], name: "index_ratings_on_user_id"
+    t.index ["shelf_id"], name: "index_books_on_shelf_id"
+    t.index ["user_id"], name: "index_books_on_user_id"
   end
 
   create_table "shelves", force: :cascade do |t|
@@ -74,9 +51,7 @@ ActiveRecord::Schema.define(version: 2019_11_25_134735) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
-  add_foreign_key "media", "users"
-  add_foreign_key "profiles", "users"
-  add_foreign_key "ratings", "shelves"
-  add_foreign_key "ratings", "users"
+  add_foreign_key "books", "shelves"
+  add_foreign_key "books", "users"
   add_foreign_key "shelves", "users"
 end
