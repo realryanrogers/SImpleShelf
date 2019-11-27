@@ -9,6 +9,16 @@ class RegistrationsController < ApplicationController
     )
 
     if user
+      Shelf.create!(
+        name: "Rated",
+        user_id: user.id,
+        public: true
+      )
+      Shelf.create!(
+        name: "Wishlist",
+        user_id: user.id,
+        public: true
+      )
       jwt = Auth.issue({user: user.public_user_id})
       render json: {
         status: "created",

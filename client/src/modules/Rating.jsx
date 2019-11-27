@@ -27,9 +27,10 @@ class Rating {
     return response;
   };
 
-  static build = data => {
+  static build = (data, shelf) => {
     const rating = {};
     rating.media_type = "book";
+    rating.ratingtype = shelf;
     rating.google_id = data.google_id;
     if (data.value) {
       rating.value = data.value;

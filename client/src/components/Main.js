@@ -48,8 +48,19 @@ class Main extends Component {
   }
 
   async gettingRatings() {
-    const ratings = await User.getUserRatings(localStorage.getItem("jwt"));
+    const ratings = await User.getUserRatings(
+      localStorage.getItem("jwt"),
+      "Rated"
+    );
     return ratings;
+  }
+
+  async gettingWishlist() {
+    const wishlist = await User.getUserRatings(
+      localStorage.getItem("jwt"),
+      "Wishlist"
+    );
+    return wishlist;
   }
 
   async gettingUser() {
@@ -112,16 +123,22 @@ class Main extends Component {
   };
 
   handleRatingClick = async data => {
-    if (data.value === "review") {
+    if (data.value === "Rated") {
       this.props.history.push({
         pathname: `/bookdetail/${data.google_id}`,
         state: {
           showReviewField: true
         }
       });
+    } else if (data.value === "Wishlist") {
+      console.log("Rate Click: ", data);
+      const rating = Rating.build(data, "Rated");
+      console.log("Built Rating: ", rating);
+      const response = await Rating.addRating(rating);
+      console.log(response);
     } else {
       console.log("Rate Click: ", data);
-      const rating = Rating.build(data);
+      const rating = Rating.build(data, "Rated");
       console.log("Built Rating: ", rating);
       const response = await Rating.addRating(rating);
       console.log(response);

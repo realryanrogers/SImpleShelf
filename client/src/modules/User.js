@@ -27,9 +27,10 @@ class User {
     }
   };
 
-  static getUserRatings = async jwt => {
+  static getUserRatings = async (jwt, shelf) => {
     if (Auth.isLoggedIn()) {
-      const response = await axios.get("/ratings", {
+      const response = await axios.get(`/ratings?shelfName=${shelf}`, {
+        shelfName: shelf,
         withCredentials: true,
         headers: { "HTTP-AUTHORIZATION": `Bearer ${jwt}` }
       });

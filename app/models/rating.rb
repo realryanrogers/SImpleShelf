@@ -25,28 +25,32 @@ class Rating < ApplicationRecord
   end
 
   def self.handleRating(user, params)
-    puts "Params"
     puts params
     if params["google_id"].present?
-      puts "rating present"
-      rating = user.ratings.find_by(google_id: params["google_id"])
-      puts "RATING"
-      puts rating.present?
+      rating = Rating.find_by(google_id: params["google_id"], user_id: user.id)
     else
-
       return {"status": "error"}
     end
 
     if rating.present?
-      "updating rating"
       return rating.update(params)
     else
       puts "creating rating"
       params["user_id"] = user.id
+      params["shelf_id"] = user.shelves.where(name: "Rated").first.id
       res = Rating.create(params)
       puts "RES"
       puts res.id
     end
 
+  end
+
+  def self.addToWishlist(user, google_id)
+    params = {}
+    params["user_id"] = user.id
+    params["google_id"] = google_id
+    params["shelf_id"] = user.shelves.where(name: "Wishlist").first.id
+    res = Rating.create(params)
+    return res
   end
 end
