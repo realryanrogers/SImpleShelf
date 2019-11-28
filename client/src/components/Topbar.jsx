@@ -25,7 +25,15 @@ export default class Topbar extends Component {
   render() {
     return (
       <Navbar bg="info" expand="md" variant="dark" sticky="top">
-        <Navbar.Brand href="/">SimpleShelf</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <img
+            src="/logo.svg"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
+          SimpleShelf
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Form inline onSubmit={this.handleSubmit}>
