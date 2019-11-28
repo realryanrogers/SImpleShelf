@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :shelves, only: [:index, :show, :edit, :create]
   resources :books, only: [:index, :show, :edit, :create]
   get '/booksearch', to: "static#booksearch"
-  get '/bookdetails', to: "ratings#bookDetails"
+  get '/bookdetails', to: "books#bookDetails"
   post '/login', to: "sessions#create"
   root to: "static#home"
   get '*path', to: "application#fallback_index_html", constraints: ->(request) do

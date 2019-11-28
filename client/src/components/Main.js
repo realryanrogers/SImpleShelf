@@ -12,6 +12,7 @@ import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import BookAPI from "../modules/BookAPI";
 import Rating from "../modules/Rating";
+import Shelving from "../modules/Shelving";
 
 class Main extends Component {
   constructor() {
@@ -62,8 +63,8 @@ class Main extends Component {
     the details page. Only do top 20 to start, to keep the column */
     // const response = await BookAPI.getBookDetails(isbn);
     // return response;
-    if (book.google_id) {
-      const bookInfo = await BookAPI.getBook(book.google_id);
+    if (book.book_identifier) {
+      const bookInfo = await BookAPI.getBook(book.book_identifier);
 
       const detailBook = { ...book, bookInfo };
       console.log(detailBook);
@@ -113,9 +114,9 @@ class Main extends Component {
 
   handleRatingClick = async data => {
     console.log("Rate Click: ", data);
-    const rating = Rating.build(data, "Rated");
+    const rating = Shelving.build(data, "Rated");
     console.log("Built Rating: ", rating);
-    const response = await Rating.addRating(rating);
+    const response = await Shelving.addToShelf(rating);
     console.log(response);
     this.props.history.push({
       pathname: `/bookdetail/${data.google_id}`,

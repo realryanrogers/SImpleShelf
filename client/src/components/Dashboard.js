@@ -31,8 +31,8 @@ export default class Dashboard extends Component {
     the details page. Only do top 20 to start, to keep the column */
     // const response = await BookAPI.getBookDetails(isbn);
     // return response;
-    if (book.google_id) {
-      const bookInfo = await BookAPI.getBook(book.google_id);
+    if (book.book_identifier) {
+      const bookInfo = await BookAPI.getBook(book.book_identifier);
 
       const detailBook = { ...book, bookInfo };
       console.log(detailBook);
@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
           {this.props.ratings.map((docs, key) => (
             <BookInfo
               title={docs.bookInfo ? docs.bookInfo.volumeInfo.title : "Unknown"}
-              cover={docs.google_id ? docs.google_id : "cover"}
+              cover={docs.book_identifier ? docs.book_identifier : "cover"}
               author={
                 docs.bookInfo ? docs.bookInfo.volumeInfo.authors[0] : "Unknown"
               }
