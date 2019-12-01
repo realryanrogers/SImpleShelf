@@ -1,10 +1,12 @@
 class BooksController < ApplicationController
-
+    PAGELIMIT = 20
     def index
+        
         @user = current_user
         @shelf = @user.shelves.where(name: params["shelf"]).first
-        @books = @shelf.books
-        render json: @books.to_json
+        @books = @shelf.books.order(updated_at: :desc).limit(PAGELIMIT).offset((params["page"].present? ? (params["page"].to_i - 1 ) * PAGELIMIT : 0))
+        
+        render json: {books: @books, pageNumber: (params["page"].present? ? params["page"].to_i : 1), totalCount: @shelf.books.count}
     end
 
     def create

@@ -5,10 +5,8 @@ import {
   Button,
   ButtonGroup,
   ProgressBar,
-  Form,
-  Jumbotron
+  Form
 } from "react-bootstrap";
-import NavLink from "react-bootstrap/NavLink";
 
 class BookDetail extends Component {
   constructor(props) {
@@ -79,9 +77,15 @@ class BookDetail extends Component {
       totalLikes: serverDetails.data.likes,
       reviews: serverDetails.data.text,
       selfReview: serverDetails.data.selfReview[0]
-        ? serverDetails.data.selfReview[0].rating.review
+        ? serverDetails.data.selfReview[0].rating
+          ? serverDetails.data.selfReview[0].rating.review
+          : ""
         : "",
-      isEditing: serverDetails.data.selfReview[0].rating.review ? false : true
+      isEditing: serverDetails.data.selfReview[0].rating
+        ? serverDetails.data.selfReview[0].rating.review
+          ? false
+          : true
+        : true
     });
     console.log("State: ", this.state);
   };

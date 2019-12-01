@@ -31,6 +31,7 @@ export default class Topbar extends Component {
             width="30"
             height="30"
             className="d-inline-block align-top"
+            alt="logo"
           />{" "}
           SimpleShelf
         </Navbar.Brand>

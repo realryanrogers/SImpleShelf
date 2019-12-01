@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import User from "../modules/User";
 import BookInfo from "./BookInfo";
 import BookAPI from "../modules/BookAPI";
-import { Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs, Pagination } from "react-bootstrap";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -13,7 +13,8 @@ export default class Dashboard extends Component {
     this.state = {
       user_id: "",
       user_email: "",
-      ratings: {}
+      ratings: {},
+      page: 1
     };
   }
 
@@ -34,9 +35,7 @@ export default class Dashboard extends Component {
     // return response;
     if (book.book_identifier) {
       const bookInfo = await BookAPI.getBook(book.book_identifier);
-
       const detailBook = { ...book, bookInfo };
-      console.log(detailBook);
       return detailBook;
     } else {
       return book;
@@ -84,6 +83,7 @@ export default class Dashboard extends Component {
           <Tab eventKey="ratings" title="Read">
             <br />
             {this.generateLists("ratings")}
+            {this.paginationBasic()}
           </Tab>
           <Tab eventKey="wishlist" title="Queue">
             <br />
@@ -91,6 +91,39 @@ export default class Dashboard extends Component {
           </Tab>
         </Tabs>
       );
+    }
+  };
+
+  handlePage = (e, number) => {
+    this.props.handlePageCall(number);
+    this.setState({
+      page: number
+    });
+
+    e.stopPropagation();
+  };
+
+  paginationBasic = () => {
+    if (typeof this.props.ratings.count === "undefined") {
+      return;
+    } else {
+      let items = [];
+      for (
+        let number = 1;
+        number <= Math.ceil(this.props.ratings.count / 10);
+        number++
+      ) {
+        items.push(
+          <Pagination.Item
+            key={number}
+            active={number === this.state.page}
+            onClick={e => this.handlePage(e, number)}
+          >
+            {number}
+          </Pagination.Item>
+        );
+      }
+      return <Pagination size="sm">{items}</Pagination>;
     }
   };
 

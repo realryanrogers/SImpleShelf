@@ -11,7 +11,6 @@ import BookDetail from "./BookDetail";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import BookAPI from "../modules/BookAPI";
-import Rating from "../modules/Rating";
 import Shelving from "../modules/Shelving";
 
 class Main extends Component {
@@ -36,37 +35,37 @@ class Main extends Component {
 
       this.gettingBooks("Rated").then(res => {
         this.setState({
-          ratings: { data: res.data, count: res.data.length }
+          ratings: { data: res.data.books, count: res.data.totalCount }
         });
-        console.log("Ratings", this.state.ratings);
         const sortedRating = this.state.ratings.data.map((rating, key) =>
           this.getBookDetails(rating, key)
         );
-        Promise.all(sortedRating).then(completed =>
+        Promise.all(sortedRating).then(completed => {
+          let totalratings = this.state.ratings.count;
           this.setState({
-            ratings: { data: completed, count: completed.length }
-          })
-        );
+            ratings: { data: completed, count: totalratings }
+          });
+        });
       });
       this.gettingBooks("Wishlist").then(res => {
-        console.log("Res ", res.data);
-
-        const sortedWishlist = res.data.map((book, key) =>
+        const sortedWishlist = res.data.books.map((book, key) =>
           this.getBookDetails(book, key)
         );
         Promise.all(sortedWishlist).then(completed => {
           this.setState({
             wishlist: { data: completed, count: completed.length }
           });
-          console.log("Wishlist", this.state.wishlist);
         });
       });
     }
   }
 
-  async gettingBooks(shelf) {
-    const books = await User.getUserBooks(localStorage.getItem("jwt"), shelf);
-    console.log(shelf, books);
+  async gettingBooks(shelf, page = 1) {
+    const books = await User.getUserBooks(
+      localStorage.getItem("jwt"),
+      shelf,
+      page
+    );
     return books;
   }
 
@@ -82,9 +81,7 @@ class Main extends Component {
     // return response;
     if (book.book_identifier) {
       const bookInfo = await BookAPI.getBook(book.book_identifier);
-
       const detailBook = { ...book, bookInfo };
-      console.log(detailBook);
       return detailBook;
     } else {
       return book;
@@ -127,6 +124,24 @@ class Main extends Component {
 
   handleSuccesfulReset = data => {
     this.props.history.push("/");
+  };
+
+  handlePageCall = page => {
+    this.gettingBooks("Rated", page).then(res => {
+      this.setState({
+        ratings: { data: res.data.books, count: res.data.totalCount }
+      });
+      console.log("Ratings", this.state.ratings);
+      let totalCount = this.state.ratings.count;
+      const sortedRating = this.state.ratings.data.map((rating, key) =>
+        this.getBookDetails(rating, key)
+      );
+      Promise.all(sortedRating).then(completed =>
+        this.setState({
+          ratings: { data: completed, count: totalCount }
+        })
+      );
+    });
   };
 
   handleRatingClick = async data => {
@@ -193,6 +208,7 @@ class Main extends Component {
                   ratings={this.state.ratings}
                   wishlist={this.state.wishlist}
                   handleRatingClick={this.handleRatingClick}
+                  handlePageCall={this.handlePageCall}
                 />
               )}
             />
