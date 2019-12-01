@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import User from "../modules/User";
 import BookInfo from "./BookInfo";
 import BookAPI from "../modules/BookAPI";
+import { Tab, Tabs } from "react-bootstrap";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -42,43 +43,60 @@ export default class Dashboard extends Component {
     }
   };
 
+  generateLists = shelf => {
+    if (this.props[shelf].data.length === 0) {
+      return;
+    }
+
+    return (
+      <ul className="list-group">
+        {this.props[shelf].data.map((docs, key) => (
+          <BookInfo
+            title={docs.bookInfo ? docs.bookInfo.volumeInfo.title : "Unknown"}
+            cover={docs.book_identifier ? docs.book_identifier : "cover"}
+            author={
+              docs.bookInfo ? docs.bookInfo.volumeInfo.authors[0] : "Unknown"
+            }
+            google_id={docs.bookInfo ? docs.bookInfo.id : "Unknown"}
+            key={key.toString()}
+            handleBookClick={this.props.handleBookClick}
+            rating={docs.value}
+            handleRatingClick={this.props.handleRatingClick}
+          />
+        ))}
+      </ul>
+    );
+  };
+
   showReviews = () => {
-    if (!this.props.ratings[0]) {
+    if (
+      typeof this.props.ratings.count === "undefined" ||
+      typeof this.props.wishlist.count === "undefined"
+    ) {
       return "Loading";
     } else {
-      console.log("Review Ratings: ", this.props.ratings);
       return (
-        <ul className="list-group">
-          {this.props.ratings.map((docs, key) => (
-            <BookInfo
-              title={docs.bookInfo ? docs.bookInfo.volumeInfo.title : "Unknown"}
-              cover={docs.book_identifier ? docs.book_identifier : "cover"}
-              author={
-                docs.bookInfo ? docs.bookInfo.volumeInfo.authors[0] : "Unknown"
-              }
-              google_id={docs.bookInfo ? docs.bookInfo.id : "Unknown"}
-              key={key.toString()}
-              handleBookClick={this.props.handleBookClick}
-              rating={docs.value}
-              handleRatingClick={this.props.handleRatingClick}
-            />
-          ))}
-        </ul>
+        <Tabs
+          defaultActiveKey="ratings"
+          id="uncontrolled-tab-example"
+          className=""
+        >
+          <Tab eventKey="ratings" title="Read">
+            <br />
+            {this.generateLists("ratings")}
+          </Tab>
+          <Tab eventKey="wishlist" title="Queue">
+            <br />
+            {this.generateLists("wishlist")}
+          </Tab>
+        </Tabs>
       );
     }
   };
 
-  componentDidMount() {
-    if (this.props.loggedInStatus === "true") {
-    }
-  }
+  componentDidMount() {}
 
-  componentDidUpdate() {
-    if (this.props.loggedInStatus === "true") {
-      console.log("State: ", this.state);
-    }
-    console.log(this.props);
-  }
+  componentDidUpdate() {}
 
   render() {
     return (

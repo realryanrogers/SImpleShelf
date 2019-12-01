@@ -29,9 +29,17 @@ class BookDetail extends Component {
   }
 
   handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+    if (e.target.name === "selfReview") {
+      if (e.target.value.length < 1001) {
+        this.setState({
+          [e.target.name]: e.target.value
+        });
+      }
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    }
   };
 
   handleSubmit = e => {
@@ -48,11 +56,17 @@ class BookDetail extends Component {
   componentDidMount = () => {
     this.getBook(this.props.match.params.id);
     console.log(this.props);
+    if (!this.state.selfReview) {
+      this.setState({
+        isEditing: true
+      });
+    }
   };
 
   getBook = async isbn => {
     const response = await BookAPI.getBook(isbn);
     const serverDetails = await BookAPI.getServerDetails(isbn);
+    this.setState({});
     console.log("Server Deets: ", serverDetails);
     console.log("detail res", response.id);
 
@@ -65,8 +79,9 @@ class BookDetail extends Component {
       totalLikes: serverDetails.data.likes,
       reviews: serverDetails.data.text,
       selfReview: serverDetails.data.selfReview[0]
-        ? serverDetails.data.selfReview[0].review
-        : ""
+        ? serverDetails.data.selfReview[0].rating.review
+        : "",
+      isEditing: serverDetails.data.selfReview[0].rating.review ? false : true
     });
     console.log("State: ", this.state);
   };
@@ -96,6 +111,17 @@ class BookDetail extends Component {
                   value={this.state.selfReview}
                   onChange={this.handleChange}
                 />
+                <h6
+                  className={`pull-right ${
+                    this.state.selfReview
+                      ? this.state.selfReview.length > 950
+                        ? "text-danger"
+                        : "text-muted"
+                      : "text-muted"
+                  }`}
+                >
+                  {this.state.selfReview ? this.state.selfReview.length : 0}
+                </h6>
               </Form.Group>
               <Button variant="info" type="submit">
                 Submit
@@ -112,7 +138,14 @@ class BookDetail extends Component {
             <strong>Your Thoughts:</strong>
 
             <div className="border-left ml-2 px-2">
-              {this.state.selfReview}
+              {this.state.selfReview.split("\n").map((item, key) => {
+                return (
+                  <span key={key}>
+                    {item}
+                    <br />
+                  </span>
+                );
+              })}
               <br />
               <br />
               <Button variant="info" onClick={this.handleEdit}>

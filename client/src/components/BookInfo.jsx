@@ -53,7 +53,12 @@ class BookInfo extends Component {
               <Button
                 name="reviewButton"
                 variant="info border-left border-right"
-                onClick={e => this.handleClick(e, "wishlist")}
+                onClick={e =>
+                  this.handleClick(
+                    e,
+                    this.props.review ? "seeReview" : "Wishlist"
+                  )
+                }
                 data-space="button"
               >
                 {`${this.props.review ? "See Review" : "Queue It!"}`}

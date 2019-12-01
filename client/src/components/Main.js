@@ -21,7 +21,8 @@ class Main extends Component {
     this.state = {
       loggedInStatus: Auth.isLoggedIn().toString(),
       user: {},
-      ratings: {}
+      ratings: {},
+      wishlist: {}
     };
   }
 
@@ -32,24 +33,40 @@ class Main extends Component {
           user: response
         });
       });
+
       this.gettingBooks("Rated").then(res => {
         this.setState({
-          ratings: res.data
+          ratings: { data: res.data, count: res.data.length }
         });
-        const sortedRating = this.state.ratings.map((rating, key) =>
+        console.log("Ratings", this.state.ratings);
+        const sortedRating = this.state.ratings.data.map((rating, key) =>
           this.getBookDetails(rating, key)
         );
         Promise.all(sortedRating).then(completed =>
           this.setState({
-            ratings: completed
+            ratings: { data: completed, count: completed.length }
           })
         );
+      });
+      this.gettingBooks("Wishlist").then(res => {
+        console.log("Res ", res.data);
+
+        const sortedWishlist = res.data.map((book, key) =>
+          this.getBookDetails(book, key)
+        );
+        Promise.all(sortedWishlist).then(completed => {
+          this.setState({
+            wishlist: { data: completed, count: completed.length }
+          });
+          console.log("Wishlist", this.state.wishlist);
+        });
       });
     }
   }
 
   async gettingBooks(shelf) {
     const books = await User.getUserBooks(localStorage.getItem("jwt"), shelf);
+    console.log(shelf, books);
     return books;
   }
 
@@ -114,8 +131,25 @@ class Main extends Component {
 
   handleRatingClick = async data => {
     console.log("Rate Click: ", data);
-    const rating = Shelving.build(data, "Rated");
-    console.log("Built Rating: ", rating);
+    var rating;
+    if (Number.isInteger(data.value)) {
+      console.log("BUILDING RATED");
+      // Add to rated shelf with the value
+      rating = Shelving.build(data, "Rated");
+    } else if (data.value === "seeReview") {
+      console.log("Sending to review");
+      this.props.history.push({
+        pathname: `/bookdetail/${data.google_id}`,
+        state: {
+          showReviewField: true
+        }
+      });
+    } else {
+      // Build the rating with the shelf value that gets passed through
+      console.log("Building ELSE");
+      rating = Shelving.build(data, data.value);
+    }
+    console.log("RATING: ", rating);
     const response = await Shelving.addToShelf(rating);
     console.log(response);
     this.props.history.push({
@@ -157,6 +191,7 @@ class Main extends Component {
                   handleLogout={this.handleLogout}
                   handleBookClick={this.handleBookClick}
                   ratings={this.state.ratings}
+                  wishlist={this.state.wishlist}
                   handleRatingClick={this.handleRatingClick}
                 />
               )}

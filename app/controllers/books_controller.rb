@@ -10,10 +10,14 @@ class BooksController < ApplicationController
     def create
         @user = current_user
         bookExists = Book.bookExistsOnShelf(@user, params["book_identifier"])
-        if params["shelf"] == "wishlist" && !bookExists.present?
+        puts "PARAMS!!"
+        puts params
+        if params["shelf"] == "Wishlist" && !bookExists.present?
+            puts "WISHLIST OR BOOK EXISTS"
             book = Book.create!(name: params["name"], book_identifier: params["book_identifier"], shelf_id: @user.shelves.where(name: "Wishlist").first.id, user_id: @user.id)
             render json: book.to_json
         else 
+            puts "NO BOOK EXISTS!"
             @shelf = @user.shelves.where(name: params["shelf"]).first
             if !@shelf.present?
                 render json: {error: "no shelf"}
@@ -24,7 +28,15 @@ class BooksController < ApplicationController
             params["name"].present? ? (createdata["name"] = params["name"]) : nil
             params["book_identifier"].present? ? (createdata["book_identifier"] = params["book_identifier"]) : nil
             params["isbn"].present? ? (createdata["isbn"] = params["isbn"]) : nil
-            params["rating"].present? ? (createdata["rating"] = params["rating"]) : nil
+            if params["rating"].present? && bookExists.present?
+                if bookExists.rating.present?
+                    createdata["rating"] = {}
+                    createdata["rating"]["review"] = (params["rating"]["review"].present? ? params["rating"]["review"] : bookExists.rating["review"])
+                    createdata["rating"]["value"] = (params["rating"]["value"].present? ? params["rating"]["value"] : bookExists.rating["value"])
+                else
+                    createdata["rating"] = params["rating"]
+                end
+            end
             if bookExists.present?
                 book = bookExists.update(createdata)
             else
