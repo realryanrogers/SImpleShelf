@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Navbar, Nav, Form, FormControl, NavDropdown } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  NavDropdown,
+  Button
+} from "react-bootstrap";
 
 export default class Topbar extends Component {
   constructor(props) {
@@ -25,7 +32,7 @@ export default class Topbar extends Component {
   render() {
     return (
       <Navbar bg="info" expand="md" variant="dark" sticky="top">
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/" className="px-2 border-right">
           <img
             src="/logo.svg"
             width="30"
@@ -35,40 +42,24 @@ export default class Topbar extends Component {
           />{" "}
           SimpleShelf
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Form inline onSubmit={this.handleSubmit}>
-            <FormControl
-              type="text"
-              placeholder="Search ISBN or Title"
-              className="mr-sm-2"
-              value={this.state.searchTerm}
-              name="searchTerm"
-              onChange={this.handleChange}
-            />
-          </Form>
-          <Nav className="ml-auto">
-            {/* <Nav.Link href="/">Profile</Nav.Link>
-            <Nav.Link href="/">Logout</Nav.Link> */}
-            <NavDropdown
-              title={
-                this.props.user && this.props.user.firstName
-                  ? this.props.user.firstName
-                  : "User"
-              }
-              id="basic-nav-dropdown"
-              alignRight
-            >
-              <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Ratings</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Wishlist</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={this.props.handleLogout}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+        <div className="navbar-nav ml">
+          {this.props.user && this.props.user.firstName
+            ? this.props.user.firstName
+            : "User"}
+        </div>
+        <Form inline onSubmit={this.handleSubmit}>
+          <FormControl
+            type="text"
+            placeholder="Search ISBN or Title"
+            className="ml-md-3"
+            value={this.state.searchTerm}
+            name="searchTerm"
+            onChange={this.handleChange}
+          />
+        </Form>
+        <Button variant="info" type="submit">
+          Search
+        </Button>
       </Navbar>
     );
   }

@@ -46,7 +46,7 @@ export default class Dashboard extends Component {
     if (this.props[shelf].data.length === 0) {
       return;
     }
-
+    console.log("Data: ", this.props[shelf].data);
     return (
       <ul className="list-group">
         {this.props[shelf].data.map((docs, key) => (
@@ -59,7 +59,7 @@ export default class Dashboard extends Component {
             google_id={docs.bookInfo ? docs.bookInfo.id : "Unknown"}
             key={key.toString()}
             handleBookClick={this.props.handleBookClick}
-            rating={docs.value}
+            rating={docs.rating ? docs.rating.value : null}
             handleRatingClick={this.props.handleRatingClick}
           />
         ))}
@@ -110,7 +110,7 @@ export default class Dashboard extends Component {
       let items = [];
       for (
         let number = 1;
-        number <= Math.ceil(this.props.ratings.count / 10);
+        number <= Math.ceil(this.props.ratings.count / 20);
         number++
       ) {
         items.push(

@@ -6,4 +6,17 @@ class UsersController < ApplicationController
 
   end
 
+  def edit
+    @user = current_user
+    if !@user.present?
+      render json: {status: "error"}
+    end
+    user = @user.update(params)
+    if user
+      render json: {status: "success"}
+    else
+      render json: {status: "error"}
+    end
+  end
+
 end

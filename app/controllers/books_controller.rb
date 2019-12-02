@@ -31,13 +31,18 @@ class BooksController < ApplicationController
             params["book_identifier"].present? ? (createdata["book_identifier"] = params["book_identifier"]) : nil
             params["isbn"].present? ? (createdata["isbn"] = params["isbn"]) : nil
             if params["rating"].present? && bookExists.present?
+                puts "BOOKEXISTS.PRESENT"
                 if bookExists.rating.present?
+                    puts "BOOKEXISTS RATING.PRESENT"
                     createdata["rating"] = {}
                     createdata["rating"]["review"] = (params["rating"]["review"].present? ? params["rating"]["review"] : bookExists.rating["review"])
                     createdata["rating"]["value"] = (params["rating"]["value"].present? ? params["rating"]["value"] : bookExists.rating["value"])
                 else
+                    puts "!BOOKEXISTS.PRESENT"
                     createdata["rating"] = params["rating"]
                 end
+            else
+                createdata["rating"] = params["rating"]
             end
             if bookExists.present?
                 book = bookExists.update(createdata)

@@ -12,6 +12,7 @@ import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import BookAPI from "../modules/BookAPI";
 import Shelving from "../modules/Shelving";
+import Profile from "./Profile";
 
 class Main extends Component {
   constructor() {
@@ -71,6 +72,7 @@ class Main extends Component {
 
   async gettingUser() {
     const user = await User.getUserInfo(localStorage.getItem("jwt"));
+    console.log("This is the user:", user);
     return user;
   }
 
@@ -193,6 +195,17 @@ class Main extends Component {
                 <Home
                   {...props}
                   loggedInStatus={Auth.isLoggedIn().toString()}
+                />
+              )}
+            />
+            <Route
+              path={"/profile"}
+              exact
+              render={props => (
+                <Profile
+                  {...props}
+                  loggedInStatus={Auth.isLoggedIn().toString()}
+                  user={this.state.user}
                 />
               )}
             />
