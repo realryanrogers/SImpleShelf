@@ -86,6 +86,7 @@ class BookInfo extends Component {
               height="150"
               width="100"
               alt={this.props.title}
+              className="fluid"
             />
           </div>
         </div>
