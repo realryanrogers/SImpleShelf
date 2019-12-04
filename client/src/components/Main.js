@@ -152,7 +152,7 @@ class Main extends Component {
     if (Number.isInteger(data.value)) {
       console.log("BUILDING RATED");
       // Add to rated shelf with the value
-      rating = Shelving.build(data, "Rated");
+      rating = await Shelving.build(data, "Rated");
     } else if (data.value === "seeReview") {
       console.log("Sending to review");
       this.props.history.push({
@@ -164,7 +164,7 @@ class Main extends Component {
     } else {
       // Build the rating with the shelf value that gets passed through
       console.log("Building ELSE");
-      rating = Shelving.build(data, data.value);
+      rating = await Shelving.build(data, data.value);
     }
     console.log("RATING: ", rating);
     const response = await Shelving.addToShelf(rating);

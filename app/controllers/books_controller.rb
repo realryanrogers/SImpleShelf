@@ -30,6 +30,8 @@ class BooksController < ApplicationController
             params["name"].present? ? (createdata["name"] = params["name"]) : nil
             params["book_identifier"].present? ? (createdata["book_identifier"] = params["book_identifier"]) : nil
             params["isbn"].present? ? (createdata["isbn"] = params["isbn"]) : nil
+            params["title"].present? ? (createdata["title"] = params["title"]) : nil
+            params["author"].present? ? (createdata["author"] = params["author"]) : nil
             if params["rating"].present? && bookExists.present?
                 puts "BOOKEXISTS.PRESENT"
                 if bookExists.rating.present?
