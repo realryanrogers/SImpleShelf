@@ -15,5 +15,9 @@
     "build": "cd client && yarn install && yarn build && cd ..",
     "deploy": "cp -a client/build/. public/",
     "heroku-postbuild": "yarn build && yarn deploy"
+  },
+  "dependencies": {
+    "-": "0.0.1",
+    "react": "^16.13.1"
   }
 }
